@@ -1,0 +1,49 @@
+<?php
+
+// $Id$
+
+
+function islandora_image_sp_required_fedora_objects() {
+
+
+  $module_path = drupal_get_path('module', 'islandora_image_sp');
+
+  // array( 'path-to-foxml-file', 'pid', 'dsid', 'path-to-datastream-file', int dsversion, boolean required)
+  // make database insertions here.
+
+
+  return array(
+    'islandora_image_sp' => array(
+      'module' => 'islandora_image_sp',
+      'title' => 'Islandora Basic image Solution Pack',
+      'objects' => array(
+        array(
+          'pid' => 'islandora:sp_basic_image',
+          'label' => 'Islandora basic image content model',
+          'dsid' => 'ISLANDORACM',
+          'datastream_file' => "$module_path/xml/BASIC_IMAGE_SP_CMODEL.xml",
+          'cmodel' => 'fedora-system:ContentModel-3.0',
+        ),
+
+        array(
+          'pid' => 'islandora:sp_basic_image_collection',
+          'label' => 'Islandora Basic Image Collection',
+          'cmodel' => 'islandora:collectionCModel',
+          'parent' => 'islandora:top',
+          'datastreams' => array(
+            array(
+              'dsid' => 'TN',
+              'datastream_file' => "$module_path/images/Crystal_Clear_filesystem_folder_grey.png",
+              'mimetype' => 'image/png',
+            ),
+            array(
+              'dsid' => 'COLLECTION_POLICY',
+              'datastream_file' => "$module_path/xml/IMAGE-COLLECTION POLICY.xml",
+            ),
+          ),
+        ),
+      ),
+    ),
+  );
+}
+
