@@ -51,7 +51,46 @@ class ImageProcessor {
     }
   }
 
+}
+
+class DisplayImageStreams {
+
+  private $pid = NULL;
+
+  function DisplayImageStreams($pid) {
+    //drupal_bootstrap(DRUPAL_BOOTSTRAP_FULL);
+    $this->pid = $pid;
+  }
+
+  function showMediumSize() {
+    global $base_url;
+    $collection_fieldset = array(
+      '#collapsible' => FALSE,
+      '#value' => '<div><div><a href="' . $base_url . '/fedora/repository/' . $this->pid . '/FULL_SIZE/FULL_SIZE.jpg">View Full Size</a></div>' .
+      '<div><a href="' . $base_url . '/fedora/repository/' . $this->pid . '/FULL_SIZE/FULL_SIZE.jpg"><img src="' .
+      $base_url . '/fedora/repository/' . $this->pid . '/MEDIUM_SIZE/MEDIUM_SIZE' . '" /></a></div>',
+    );
+    $tabset = array();
+    $tabset['image'] = array(
+      '#type' => 'tabpage',
+      '#title' => t('Image'),
+      '#content' => theme('fieldset', $collection_fieldset),
+    );
+
+    return $tabset;
+    //  return theme('fieldset', $collection_fieldset);
+  }
+
+  function showTN() {
+    global $base_url;
+    $collection_fieldset = array(
+      '#collapsible' => FALSE,
+      '#value' => '<a href="' . $base_url . '/fedora/repository/' . $this->pid . '/MEDIUM_SIZE/MEDIUM_SIZE.jpg"><img src="' .
+      $base_url . '/fedora/repository/' . $this->pid . '/TN/TN.jpg' . '" /></a>',
+    );
+    return theme('fieldset', $collection_fieldset);
+  }
+
 
 
 }
-
