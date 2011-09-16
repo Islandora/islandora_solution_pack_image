@@ -64,6 +64,9 @@ class DisplayImageStreams {
 
   function showMediumSize() {
     global $base_url;
+    module_load_include('inc', 'fedora_repository', 'api/fedora_item');
+    $item = new fedora_item($this->pid);
+    $title = $item->objectProfile->objLabel;
     $collection_fieldset = array(
       '#collapsible' => FALSE,
       '#value' => '<div><div><a href="' . $base_url . '/fedora/repository/' . $this->pid . '/FULL_SIZE/FULL_SIZE.jpg">View Full Size</a></div>' .
@@ -73,7 +76,7 @@ class DisplayImageStreams {
     $tabset = array();
     $tabset['image'] = array(
       '#type' => 'tabpage',
-      '#title' => t('Image'),
+      '#title' => $title,
       '#content' => theme('fieldset', $collection_fieldset),
     );
 

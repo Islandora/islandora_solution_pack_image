@@ -46,9 +46,9 @@
             </add_datastream_method>
         </datastream>
         <datastream dsid="MEDIUM_SIZE">
-            <display_method class="ShowDemoStreamsInFieldSets"
-                file="plugins/ShowDemoStreamsInFieldSets.inc" method="showMediumSize"
-                module="fedora_repository"/>
+            <display_method class="DisplayImageStreams"
+                file="image_process.inc" method="showMediumSize"
+                module="islandora_image_sp"/>
         </datastream>
         <datastream dsid="QDC">
             
