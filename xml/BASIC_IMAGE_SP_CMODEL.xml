@@ -51,8 +51,7 @@
                 module="fedora_repository"/>
         </datastream>
         <datastream dsid="QDC">
-            <display_method class="ShowStreamsInFieldSets" file="plugins/ShowStreamsInFieldSets.inc"
-                method="showQdc" module="fedora_repository"/>
+            
         </datastream>
     </datastreams>
     <ingest_form dsid="QDC" page="2">
