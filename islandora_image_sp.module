@@ -48,7 +48,7 @@ function islandora_image_sp_required_fedora_objects() {
           'pid' => 'islandora:sp_basic_image_collection',
           'label' => 'Islandora Basic Image Collection',
           'cmodel' => 'islandora:collectionCModel',
-          'parent' => 'islandora:top',
+          'parent' => 'islandora:root',
           'datastreams' => array(
             array(
               'dsid' => 'TN',
