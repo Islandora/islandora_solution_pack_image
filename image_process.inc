@@ -12,7 +12,7 @@
 class ImageProcessor {
 
   function ImageProcessor() {
-    module_load_include('inc', 'fedora_repository', 'ObjectHelper');
+    module_load_include('inc', 'islandora_repository', 'ObjectHelper');
   }
 
   //use imagemapi to manipulate images instead of going directly to imagemagick or whatever
@@ -64,7 +64,7 @@ class DisplayImageStreams {
 
   function showMediumSize() {
     global $base_url;
-    module_load_include('inc', 'fedora_repository', 'api/fedora_item');
+    module_load_include('inc', 'islandora_repository', 'api/fedora_item');
     $item = new fedora_item($this->pid);
     $title = $item->objectProfile->objLabel;
     $collection_fieldset = array(
