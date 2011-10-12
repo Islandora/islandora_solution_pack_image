@@ -1,21 +1,30 @@
-
 <?php
 
-// $Id$
-
-/*
- *
- *
- * This Class implements the methods defined in the basic image solution content model
+/**
+ * @file
+ * Image Processor and Display Image classes
  */
 
+/**
+ * This Class implements the methods defined in the basic image solution content model
+ */
 class ImageProcessor {
 
+  /**
+   * Constructor
+   */
   function ImageProcessor() {
     module_load_include('inc', 'fedora_repository', 'ObjectHelper');
   }
 
-  //use imagemapi to manipulate images instead of going directly to imagemagick or whatever
+  /**
+   * use imagemapi to manipulate images instead of going directly to imagemagick or whatever
+   * @param type $parameterArray
+   * @param type $dsid
+   * @param type $file
+   * @param type $file_ext
+   * @return type 
+   */
   function manipulateImage($parameterArray = NULL, $dsid, $file, $file_ext) {
     $height = $parameterArray['height'];
     $width = $parameterArray['width'];
@@ -53,15 +62,27 @@ class ImageProcessor {
 
 }
 
+/**
+ * Display Image Streams
+ */
 class DisplayImageStreams {
 
   private $pid = NULL;
 
+  /**
+   * Constructor
+   * @param type $pid 
+   */
   function DisplayImageStreams($pid) {
     //drupal_bootstrap(DRUPAL_BOOTSTRAP_FULL);
     $this->pid = $pid;
   }
 
+  /**
+   * Show medium size
+   * @global type $base_url
+   * @return type 
+   */
   function showMediumSize() {
     global $base_url;
     module_load_include('inc', 'fedora_repository', 'api/fedora_item');
@@ -84,6 +105,11 @@ class DisplayImageStreams {
     //  return theme('fieldset', $collection_fieldset);
   }
 
+  /**
+   * Show thumbnail
+   * @global type $base_url
+   * @return type 
+   */
   function showTN() {
     global $base_url;
     $collection_fieldset = array(
@@ -93,7 +119,4 @@ class DisplayImageStreams {
     );
     return theme('fieldset', $collection_fieldset);
   }
-
-
-
 }

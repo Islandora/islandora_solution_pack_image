@@ -1,35 +1,25 @@
 <?php
 
-// $Id$
+/**
+ * @file
+ * Islandora image solution pack module
+ */
 
-
+/**
+ * islandora image sp required fedora objects
+ * 
+ * @return type 
+ */
 function islandora_image_sp_required_fedora_objects() {
-
 
   $module_path = drupal_get_path('module', 'islandora_image_sp');
 
-  // Put the form in the database
-  $result = db_result(db_query('Select name from {xml_forms} where name = "%s"', 'Islandora Image MODS Form'));
-  if (!$result) {
-    $filename = "$module_path/xml/mods_image.xml";
-    $form_as_string = file_get_contents($filename);
-    $object = new stdClass();
-    $object->name = 'Islandora Image MODS Form';
-    $object->form = $form_as_string;
-    $result = drupal_write_record('xml_forms', $object);
-  }
-
-  // Associates the form with the content model
-  $result = db_result(db_query('Select content_model from {islandora_content_model_forms} where  content_model = "%s" and form_name = "%s"', 'islandora:collectionCModel', 'Islandora Image MODS Form'));
-  if (!$result) {
-    $object = new stdClass();
-    $object->content_model = 'islandora:collectionCModel';
-    $object->form_name = 'Islandora Image MODS Form';
-    $object->dsid = 'MODS';
-    $object->title_field = "['titleInfo']['title']";
-    $object->transform = 'mods_to_dc.xsl';
-    $result = drupal_write_record('islandora_content_model_forms', $object);
-  }
+  // Add the form and associate it to the content model
+  $module_path = drupal_get_path('module', 'islandora_image_sp');
+  $form_name = 'Islandora Image MODS Form';
+  $form_xml = file_get_contents("$module_path/xml/mods_image.xml");
+  solution_pack_add_form($form_name, $form_xml);
+  solution_pack_add_form_association('islandora:collectionCModel', $form_name);
 
   return array(
     'islandora_image_sp' => array(
@@ -43,7 +33,6 @@ function islandora_image_sp_required_fedora_objects() {
           'datastream_file' => "$module_path/xml/BASIC_IMAGE_SP_CMODEL.xml",
           'cmodel' => 'fedora-system:ContentModel-3.0',
         ),
-
         array(
           'pid' => 'islandora:sp_basic_image_collection',
           'label' => 'Islandora Basic Image Collection',
