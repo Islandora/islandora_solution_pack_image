@@ -19,7 +19,7 @@ function islandora_image_sp_required_fedora_objects() {
   $form_name = 'Islandora Image MODS Form';
   $form_xml = file_get_contents("$module_path/xml/mods_image.xml");
   solution_pack_add_form($form_name, $form_xml);
-  solution_pack_add_form_association('islandora:collectionCModel', $form_name);
+  solution_pack_add_form_association('islandora:sp_basic_image', $form_name);
 
   return array(
     'islandora_image_sp' => array(
