@@ -90,7 +90,7 @@ class DisplayImageStreams {
     $title = $item->objectProfile->objLabel;
     $collection_fieldset = array(
       '#collapsible' => FALSE,
-      '#value' => '<div><div><a href="' . $base_url . '/fedora/repository/' . $this->pid . '/FULL_SIZE/FULL_SIZE.jpg">View Full Size</a></div>' .
+      '#value' => '<div><div><a href="' . $base_url . '/fedora/repository/' . $this->pid . '/OBJ/FULL_SIZE.jpg">View Full Size</a></div>' .
       '<div><a href="' . $base_url . '/fedora/repository/' . $this->pid . '/FULL_SIZE/FULL_SIZE.jpg"><img src="' .
       $base_url . '/fedora/repository/' . $this->pid . '/MEDIUM_SIZE/MEDIUM_SIZE' . '" /></a></div>',
     );
