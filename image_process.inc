@@ -49,7 +49,7 @@ class ImageProcessor {
       return $returnValue;
     }
     $filename = substr(strrchr($file, '/'), 1);
-    $output_path = $_SERVER['DOCUMENT_ROOT'] . base_path() . file_directory_path() . '/' . $filename . $file_suffix;
+    $output_path = $_SERVER['DOCUMENT_ROOT'] . base_path() . $file . $file_suffix;
     $returnValue = imageapi_image_close($image, $output_path);
     if ($returnValue) {
       $_SESSION['fedora_ingest_files']["$dsid"] = $file . $file_suffix;
