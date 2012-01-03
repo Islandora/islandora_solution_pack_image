@@ -7,12 +7,10 @@
 
 /**
  * islandora image sp required fedora objects
- * 
- * @return type 
+ *
+ * @return type
  */
 function islandora_image_sp_required_fedora_objects() {
-
-  $module_path = drupal_get_path('module', 'islandora_image_sp');
 
   // Add the form and associate it to the content model
   $module_path = drupal_get_path('module', 'islandora_image_sp');
