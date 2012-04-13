@@ -32,6 +32,15 @@ class ImageProcessor {
     $file_suffix = '_' . $dsid . '.' . $file_ext;
     $returnValue = TRUE;
 
+    $path_info = pathinfo($file);
+    $newfile = str_replace('.' . $path_info['extension'], '_EXIF.xml', $file);
+    $returnValue = TRUE;
+    $output = array();
+    exec('exiftool -X ' . escapeshellarg($file) . '', $output, $returnValue);
+    if ($returnValue == 0) {
+      file_put_contents($newfile, implode("\n", $output));
+      $_SESSION['fedora_ingest_files']["EXIF"] = $newfile;
+    }
 
     $image = imageapi_image_open($file);
 
