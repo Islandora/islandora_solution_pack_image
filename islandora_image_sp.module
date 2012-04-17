@@ -11,7 +11,7 @@
  * @return type
  */
 function islandora_image_sp_required_fedora_objects() {
-
+  module_load_include('inc', 'fedora_repository', 'fedora_repository.solutionpacks');
   // Add the form and associate it to the content model
   $module_path = drupal_get_path('module', 'islandora_image_sp');
   $form_name = 'Islandora Image MODS Form';
