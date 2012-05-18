@@ -1,0 +1,118 @@
+<?php
+
+/*
+ * @file islandora_basic_image.module
+ * 
+ * an Islandora module to handle legacy contentModels (with ISLANDORACM streams)
+ * 
+ * 
+ * This file is part of Islandora.
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with the program.  If not, see <http ://www.gnu.org/licenses/>.
+ */
+
+
+/**
+ * called by theme function and populates a render array for a table view.
+ * @param array $metadata
+ * @param array $render_array
+ * @return array 
+ */
+function islandora_basic_image_render_object($metadata, &$render_array) {
+  $header = array(t('Label'), t('Value'));
+  $table_attributes = array('class' => array('islandora_metadata'));
+  /*$rows = array();
+  foreach ($metadata as $key => $value) {
+    if (isset($value) && is_array($value)) {
+      $item_list = array('#items' => $value, '#theme' => 'item_list');
+      $rows[] = array($key, array('data' => $item_list));
+    }
+    else {
+      $rows[] = array($key, $value);
+    }
+  }
+  $render_array['metadata'] = array('#header' => $header, '#theme' => 'table', '#rows' => $rows, '#attributes' => $table_attributes);
+  */
+    return $render_array;
+   
+}
+
+/**
+ * returns a drupal render array as a html string
+ * @param array $variables
+ * @return  string
+ */
+function theme_islandora_basic_image_view_object($variables) {
+  $object = $variables['object'];
+  //$metadata = $object->metadata;
+  $render_array = array('title' => array(
+      '#type' => 'markup',
+      '#markup' => '<h2>' . $object->label . '</h2>',
+      ));
+  
+  islandora_basic_image_render_object($object, $render_array);
+  
+  return drupal_render($render_array);
+}
+
+
+/**
+ * Theme registry function
+ * @return array
+ */
+function islandora_basic_image_theme() {
+  return array(
+    'islandora_basic_image_view_objects' => array(
+      'template' => 'islandora-basic-image-view-objects',
+      'variables' => array('objects' => NULL),
+    ),
+    'islandora_basic_image_view_object' => array(
+      'template' => 'islandora-basic-image-view-object',
+      'variables' => array('objects' => NULL),
+    )
+  );
+}
+
+/**
+ * tells the main module what types of objects we support.
+ * @return array 
+ */
+function islandora_basic_image_get_types() {
+  return array('info:fedora/islandora:imgageCModel', 'info:fedora/islandora:sp_basic_image');
+}
+
+/**
+ * this modules implentation of view_object will handle objects of type islandora:pdfCmodel as registered in its return types
+ *   Other modules would handle objects
+ * of other types.
+ * @param FedoraObject $object
+ * @param object $user
+ * @param string $page_number
+ * @param string $page_size
+ * @return string
+ *    themed html
+ */
+function islandora_basic_image_islandora_view_object($object, $user, $page_number, $page_size) {
+  //global $user;
+  $cmodel_list = islandora_basic_image_get_types();
+  $combined_list = array_intersect($cmodel_list, $object->models);
+  if (empty($combined_list)) {
+    return NULL;
+  }
+  $output = theme('islandora_basic_image_view_object', array('objects' => $object));
+  
+  return $output;
+}
+
+?>
