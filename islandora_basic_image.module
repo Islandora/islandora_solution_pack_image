@@ -3,7 +3,7 @@
 /*
  * @file islandora_basic_image.module
  * 
- * an Islandora module to handle basic image cmodels (with ISLANDORACM streams)
+ * an Islandora module to handle basic image cmodels 
  * 
  * 
  * This file is part of Islandora.
@@ -21,54 +21,6 @@
  * You should have received a copy of the GNU General Public License
  * along with the program.  If not, see <http ://www.gnu.org/licenses/>.
  */
-
-
-/**
- * called by theme function and populates a render array for a table view.
- * See theme registry.  This is also an example function.
- * @param array $metadata
- * @param array $render_array
- * @return array 
- */
-/*
-  function islandora_basic_image_render_object($metadata, &$render_array) {
-  $header = array(t('Label'), t('Value'));
-  $table_attributes = array('class' => array('islandora_metadata'));
-  $rows = array();
-  foreach ($metadata as $key => $value) {
-  if (isset($value) && is_array($value)) {
-  $item_list = array('#items' => $value, '#theme' => 'item_list');
-  $rows[] = array($key, array('data' => $item_list));
-  }
-  else {
-  $rows[] = array($key, $value);
-  }
-  }
-  $render_array['metadata'] = array('#header' => $header, '#theme' => 'table', '#rows' => $rows, '#attributes' => $table_attributes);
-
-  return $render_array;
-
-  } */
-
-/**
- * returns a drupal render array as a html string
- * This is an example function.  We probably want to use a template
- * @param array $variables
- * @return  string
- */
-/*
-  function theme_islandora_basic_image_view_object($variables) {
-  $object = $variables['object'];
-  //$metadata = $object->metadata;
-  $render_array = array('title' => array(
-  '#type' => 'markup',
-  '#markup' => '<h2>' . $object->label . '</h2>',
-  ));
-
-  islandora_basic_image_render_object($object, $render_array);
-
-  return drupal_render($render_array);
-  } */
 
 /**
  * Theme registry function
@@ -104,7 +56,7 @@ function islandora_basic_image_islandora_get_types() {
 }
 
 /**
- * this modules implentation of view_object will handle objects of type islandora:basicImageCModel and  info:fedora/islandora:sp_basic_image
+ * this modules implentation of view_object hook will handle objects of type islandora:basicImageCModel and  info:fedora/islandora:sp_basic_image
  * as registered in its return types
  * Other modules would handle objects of other types.
  * @param Object $object
@@ -133,7 +85,7 @@ function islandora_basic_image_islandora_view_object($object, $user, $page_numbe
  * @param array $variables 
  *   an array of variables that will be passed to the theme function
  */
-function islandora_preprocess_islandora_basic_image(&$variables) {
+function islandora_basic_image_preprocess_islandora_basic_image(&$variables) {
   $islandora_object = $variables['islandora_object'];
   module_load_include('inc', 'islandora', 'utils/islandora_dublin_core');
   try {
@@ -146,8 +98,15 @@ function islandora_preprocess_islandora_basic_image(&$variables) {
   $variables['islandora_object_label'] = $islandora_object->label;
   $variables['theme_hook_suggestions'][] = 'islandora_basic_image__' . str_replace(':', '_', $islandora_object->id);
   global $base_url;
-  $variables['islandora_image_url'] = $base_url . '/islandora/object/' . $islandora_object->id . '/datastream/OBJ/view';
-  $variables['islandora_thumbnail_url'] = $base_url . '/islandora/object/' . $islandora_object->id . '/datastream/TN/view';
-  $variables['islandora_medium_size_url'] = $base_url . '/islandora/object/' . $islandora_object->id . '/datastream/MEDIUM/view';
+  if (isset($islandora_object['OBJ'])) {
+    $variables['islandora_image_url'] = $base_url . '/islandora/object/' . $islandora_object->id . '/datastream/OBJ/view';
+  }
+  if (isset($islandora_object['TN'])) {
+    $variables['islandora_thumbnail_url'] = $base_url . '/islandora/object/' . $islandora_object->id . '/datastream/TN/view';
+  }
+  if (isset($islandora_object['MEDIUM_SIZE'])){
+    $variables['islandora_medium_size_url'] = $base_url . '/islandora/object/' . $islandora_object->id . '/datastream/MEDIUM_SIZE/view';
+  }
+    
 }
 
