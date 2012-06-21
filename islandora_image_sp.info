@@ -3,5 +3,5 @@ description = Islandora configurations for persisting and retrieving basic image
 dependencies[] = fedora_repository
 dependencies[] = imageapi_imagemagick
 package = Islandora Solution Pack
-version = 6.x-12.2.0-RC3
+version = 6.x-12.2.0
 core = 6.x
