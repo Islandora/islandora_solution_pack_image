@@ -50,7 +50,7 @@ class ImageProcessor {
     }
 
     if (!empty($height) || !empty($width)) {
-      $returnValue = imageapi_image_scale($image, $height, $width);
+      $returnValue = imageapi_image_scale($image, $width, $height);
     }
 
     if (!$returnValue) {
