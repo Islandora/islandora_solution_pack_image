@@ -23,6 +23,7 @@
             <parameter name="height">700</parameter>
           </parameters>
         </ingest_method>
+        <ingest_method class="fits" dsid="FITS" file="plugins/fits.inc" method="extractFits" module="fedora_repository" modified_files_ext=""></ingest_method>
         <ingest_method class="ImageProcessor" dsid="TN"
                     file="image_process.inc" method="manipulateImage"
                     modified_files_ext="jpg" module="islandora_image_sp">
@@ -52,7 +53,7 @@
     </datastream>
     <datastream dsid="QDC"/>
     <datastream dsid="EXIF"/>
-
+    <datastream dsid="FITS"/>
   </datastreams>
   <ingest_form dsid="QDC" page="2">
     <form_builder_method class="DemoFormBuilder" file="plugins/DemoFormBuilder.inc"
