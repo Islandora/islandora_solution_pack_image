@@ -171,21 +171,28 @@ function islandora_basic_image_islandora_view_object($object, $user, $page_numbe
   return NULL;
 }
 
+/**
+ * Creates derivative images prior to file ingestion, modifying $ingest_file_locations to add new
+ * datastreams-to-be
+ */
+function islandora_basic_image_islandora_before_content_model_form_ingest_files($ingest_file_locations, $object) {
+  module_load_include('inc', 'islandora_basic_image', 'includes/image.process');
+  return islandora_basic_image_create_all_derivatives($ingest_file_locations, $object);
+}
+
+/**
+ * Cleans up the temp file mess left behind from derivative images
+ */
 function islandora_basic_image_islandora_ingest_post_ingest($object) {
-  $cmodel_list = islandora_basic_image_islandora_get_types();
-  if(!isset($cmodel_list)){
-    return ;
+  if (!array_key_exists("fedora_ingest_files", $_SESSION)) {
+    return;
   }
-  $models = $object->models;
-  if(!isset($models)){
-    return ;
+
+  foreach ($_SESSION["fedora_ingest_files"] as $dsid => $file) {
+    file_unmanaged_delete($file);
   }
-  foreach ($models as $model) {
-    if (isset($cmodel_list[$model])) {
-      module_load_include('inc', 'islandora_basic_image', 'includes/image.process');
-      islandora_basic_image_create_all_derivatives($object);
-    }
-  }
+
+  unset($_SESSION["fedora_ingest_files"]);
 }
 
 /**
