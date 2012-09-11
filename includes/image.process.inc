@@ -1,7 +1,6 @@
 <?php
 /**
- * @file image.process.inc
- *
+ * @file
  * This file contains all the functions for image manipulation used in the
  * basic image solution pack.
  */
@@ -10,14 +9,14 @@
  * creates the derivatives for this content model type
  * @param object $object
  *   tuque FedoraObject
- * @return string 
+ * @return string
  */
 function islandora_basic_image_create_all_derivatives($object) {
   module_load_include('inc', 'islandora', 'includes/mime.detect');
   module_load_include('inc', 'islandora_basic_image', 'includes/image_process');
   $mime_class = new MimeDetect();
   if (!isset($object['OBJ'])) {
-    drupal_set_message(t('Could not create image derivatives for %s.  No image file was uploaded.', array('%s' => $object->id)),'error');
+    drupal_set_message(t('Could not create image derivatives for %s.  No image file was uploaded.', array('%s' => $object->id)), 'error');
     return "";
   }
   $ext = $mime_class->getExtension($object['OBJ']->mimeType);
@@ -37,7 +36,7 @@ function islandora_basic_image_create_all_derivatives($object) {
 
 /**
  *
- * @param object $file 
+ * @param object $file
  *   stdclass
  */
 function islandora_basic_image_create_derivative($file, $width, $height) {
@@ -56,7 +55,7 @@ function islandora_basic_image_create_derivative($file, $width, $height) {
  * adds a datastream and deletes the tmp file from local file system
  * @param object $object
  * @param string $dsid
- * @param object $file 
+ * @param object $file
  */
 function islandora_basic_image_add_datastream($object, $dsid, $file) {
   try {

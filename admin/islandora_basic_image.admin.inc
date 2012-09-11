@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @file
+ * This file contains all admin functions
+ */
+
 function islandora_basic_image_admin() {
   $form = array();
   $form['islandora_basic_image_use_for_default_tab'] = array(
