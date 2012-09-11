@@ -102,10 +102,6 @@ function islandora_basic_image_init() {
  */
 function islandora_basic_image_theme($existing, $type, $theme, $path) {
   return array(
-    'islandora_basic_image_objects' => array(
-      'template' => 'islandora-basic-image-view-objects',
-      'variables' => array('islandora_objects' => NULL),
-    ),
     'islandora_basic_image' => array(
       'template' => 'theme/islandora-basic-image',
       'pattern' => 'islandora_basic_image__', //we can add pids to the end of this pattern in our preprocess function
