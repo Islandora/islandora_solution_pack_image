@@ -53,7 +53,7 @@ function islandora_basic_image_install() {
       $rest_connection->api->m->ingest(array('string' => $xml));
       $fedora_object = new FedoraObject('islandora:sp_basic_image_collection', $rest_connection->repository);
       $datastream = new NewFedoraDatastream('TN', 'M', $fedora_object, $rest_connection->repository);
-      $file_path = $base_url . '/' . drupal_get_path('module', 'islandora_basic_image') . '/Crystal_Clear_filesystem_folder_grey.png';
+      $file_path = $base_url . '/' . drupal_get_path('module', 'islandora_basic_image') . '/images/folder.png';
       $datastream->label = 'Thumbnail';
       $datastream->mimetype = 'image/png';
       $datastream->setContentFromUrl($file_path);
