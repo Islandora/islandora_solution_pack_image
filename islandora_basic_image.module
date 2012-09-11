@@ -1,29 +1,12 @@
 <?php
 
 /*
- * @file islandora_basic_image.module
- * 
- * an Islandora module to handle basic image cmodels 
- * 
- * 
- * This file is part of Islandora.
- * 
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- * 
- * You should have received a copy of the GNU General Public License
- * along with the program.  If not, see <http ://www.gnu.org/licenses/>.
+ * @file
+ * An Islandora module to handle basic image cmodels
  */
 
 /**
- * Implementation of hook_menu. 
+ * Implements hook_menu().
  * If you need to add secondary tabs to either view or manage you would create a
  * hook_menu function similar to below.  You would also need to create an access function
  * to tell islandora when to show your tabs.  There is an example below.
@@ -39,7 +22,7 @@ function islandora_basic_image_menu() {
     'file' => 'admin/islandora_basic_image.admin.inc',
     'type' => MENU_NORMAL_ITEM,
   );
-  /* example menu paths 
+  /* example menu paths
     $items['islandora/object/%/manage/image'] = array(
     'title' => 'Manage Image Types',
     'page callback' => 'islandora_basic_image_manage_object',
@@ -72,10 +55,10 @@ function islandora_basic_image_menu() {
  * an example of adding a new managment section to the manage section of islandora.
  * The islandora_basic_image_access function determines whether or not to show this
  * section.
- * 
+ *
  * This is an example function used by hook_menu above.
  * @param string $object_id
- * @return string 
+ * @return string
  */
 /*
   function islandora_basic_image_manage_object($object_id){
@@ -84,10 +67,10 @@ function islandora_basic_image_menu() {
 
 /**
  * /**
- * An example function used by hook_menu 
+ * An example function used by hook_menu
  * /
  * @param type $object_id
- * @return string 
+ * @return string
  */
 /*
   function islandora_basic_image_view1($object_id){
@@ -97,7 +80,7 @@ function islandora_basic_image_menu() {
 /**
  * An example function needed by this modules hook_menu
  * @param type $object_id
- * @return string 
+ * @return string
  */
 /*
   function islandora_basic_image_view2($object_id){
@@ -119,10 +102,6 @@ function islandora_basic_image_init() {
  */
 function islandora_basic_image_theme($existing, $type, $theme, $path) {
   return array(
-    'islandora_basic_image_objects' => array(
-      'template' => 'islandora-basic-image-view-objects',
-      'variables' => array('islandora_objects' => NULL),
-    ),
     'islandora_basic_image' => array(
       'template' => 'theme/islandora-basic-image',
       'pattern' => 'islandora_basic_image__', //we can add pids to the end of this pattern in our preprocess function
@@ -136,7 +115,7 @@ function islandora_basic_image_theme($existing, $type, $theme, $path) {
 /**
  * tells the main module what types of objects we support.  This is used to determine whether or not
  * this module should attempt to respond.
- * @return array 
+ * @return array
  *   array of content model pids that this module supports
  */
 function islandora_basic_image_islandora_get_types() {
@@ -173,11 +152,11 @@ function islandora_basic_image_islandora_view_object($object, $user, $page_numbe
 
 function islandora_basic_image_islandora_ingest_post_ingest($object) {
   $cmodel_list = islandora_basic_image_islandora_get_types();
-  if(!isset($cmodel_list)){
+  if (!isset($cmodel_list)) {
     return ;
   }
   $models = $object->models;
-  if(!isset($models)){
+  if (!isset($models)) {
     return ;
   }
   foreach ($models as $model) {
@@ -191,7 +170,7 @@ function islandora_basic_image_islandora_ingest_post_ingest($object) {
 /**
  *
  * @global type $base_url
- * @param array $variables 
+ * @param array $variables
  *   an array of variables that will be passed to the theme function
  */
 function islandora_basic_image_preprocess_islandora_basic_image(&$variables) {
