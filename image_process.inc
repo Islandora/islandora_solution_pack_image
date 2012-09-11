@@ -3,6 +3,7 @@
 /**
  * @file
  * Image Processor and Display Image classes
+ * @TODO: rename this file? There's two image_process.inc files in this module
  */
 
 /**
@@ -23,7 +24,7 @@ class ImageProcessor {
    * @param type $dsid
    * @param type $file
    * @param type $file_ext
-   * @return type 
+   * @return type
    */
   function manipulateImage($parameterArray = NULL, $dsid, $file, $file_ext) {
     $height = $parameterArray['height'];
@@ -57,7 +58,7 @@ class ImageProcessor {
       drupal_set_message(t("Error scaling image."));
       return $returnValue;
     }
-    $filename = substr(strrchr($file, '/'), 1);
+    $filename = drupal_substr(strrchr($file, '/'), 1);
     $output_path = $_SERVER['DOCUMENT_ROOT'] . base_path() . $file . $file_suffix;
     $returnValue = imageapi_image_close($image, $output_path);
     if ($returnValue) {
@@ -80,7 +81,7 @@ class DisplayImageStreams {
 
   /**
    * Constructor
-   * @param type $pid 
+   * @param type $pid
    */
   function DisplayImageStreams($pid) {
     //drupal_bootstrap(DRUPAL_BOOTSTRAP_FULL);
@@ -90,7 +91,7 @@ class DisplayImageStreams {
   /**
    * Show medium size
    * @global type $base_url
-   * @return type 
+   * @return type
    */
   function showMediumSize() {
     global $base_url;
@@ -117,7 +118,7 @@ class DisplayImageStreams {
   /**
    * Show thumbnail
    * @global type $base_url
-   * @return type 
+   * @return type
    */
   function showTN() {
     global $base_url;
