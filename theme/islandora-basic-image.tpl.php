@@ -31,7 +31,7 @@
     <?php endif; ?>
     <?php if ($parent_collections): ?>
       <div>
-        <h2><?php print t('In Collections'); ?></h2>
+        <h2><?php print t('In collections'); ?></h2>
         <ul>
           <?php foreach ($parent_collections as $key => $value): ?>
             <li><?php print $value['label_link'] ?></li>
@@ -42,7 +42,7 @@
   </div>
   </div>
   <fieldset class="collapsible collapsed islandora-basic-image-metadata">
-  <legend><span class="fieldset-legend"><?php print t('Extended Details'); ?></span></legend>
+  <legend><span class="fieldset-legend"><?php print t('Extended details'); ?></span></legend>
     <div class="fieldset-wrapper">
       <dl class="islandora-inline-metadata islandora-basic-image-fields">
         <?php $row_field = 0; ?>
