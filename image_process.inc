@@ -40,7 +40,6 @@ class ImageProcessor {
     exec('exiftool -X ' . escapeshellarg($file) . '', $output, $returnValue);
     if ($returnValue == 0) {
       file_put_contents($newfile, implode("\n", $output));
-      $_SESSION['fedora_ingest_files']["EXIF"] = $newfile;
     }
 
     $image = imageapi_image_open($file);
@@ -61,13 +60,8 @@ class ImageProcessor {
     $filename = drupal_substr(strrchr($file, '/'), 1);
     $output_path = $_SERVER['DOCUMENT_ROOT'] . base_path() . $file . $file_suffix;
     $returnValue = imageapi_image_close($image, $output_path);
-    if ($returnValue) {
-      $_SESSION['fedora_ingest_files']["$dsid"] = $file . $file_suffix;
-      return TRUE;
-    }
-    else {
-      return $returnValue;
-    }
+
+    return $returnValue;
   }
 
 }
