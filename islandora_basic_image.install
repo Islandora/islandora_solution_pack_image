@@ -92,6 +92,6 @@ function islandora_basic_image_uninstall() {
   $collection_query = $rest_connection->api->a->findObjects('query', 'pid=islandora:sp_basic_image_collection');
   if (!empty($collection_query['results'])) {
     $link = l('islandora:sp_basic_image', $base_url . '/islandora/object/islandora:sp_basic_image_collection');
-    drupal_set_message(st('Did not remove %s it maybe being used by other sites. ' . $link, array('%s' => 'slandora:sp_basic_image_collection')), 'warning');
+    drupal_set_message(st('Did not remove %s it maybe being used by other sites. ' . $link, array('%s' => 'islandora:sp_basic_image_collection')), 'warning');
   }
 }
