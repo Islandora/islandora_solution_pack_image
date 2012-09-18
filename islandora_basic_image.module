@@ -94,7 +94,7 @@ function islandora_basic_image_init() {
 }
 
 /**
- * Implements hook_required_objects().
+ * Implements hook_islandora_required_objects().
  */
 function islandora_basic_image_islandora_required_objects() {
 
@@ -104,7 +104,7 @@ function islandora_basic_image_islandora_required_objects() {
   return array(
     'islandora_basic_image' => array(
       'module' => 'islandora_basic_image',
-      'title' => 'Islandora basic image solution pack',
+      'title' => 'Islandora basic image',
       'objects' => array(
         array(
           'pid' => 'islandora:sp_basic_image',

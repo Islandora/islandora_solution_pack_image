@@ -4,6 +4,10 @@
  * @file
  * islandora-basic-image.install
  */
+ 
+/**
+ * Implements hook_requirements().
+ */
 function islandora_basic_image_requirements($phase) {
   if ($phase == 'install') {
     module_load_include('inc', 'islandora', 'includes/tuque');
@@ -19,67 +23,20 @@ function islandora_basic_image_requirements($phase) {
 
 /**
  * Implements hook_install().
+ *
+ * @see islandora_basic_image_islandora_required_objects().
  */
 function islandora_basic_image_install() {
-  module_load_include('inc', 'islandora', 'includes/tuque');
-  module_load_include('module', 'islandora', 'islandora');
-  module_load_include('inc', 'islandora', 'includes/islandora.ingest');
-  module_load_include('module', 'islandora_basic_image', 'islandora');
-  global $base_url;
-
-  try {
-    $connection = new IslandoraTuque();
-  } catch (Exception $e) {
-    drupal_set_message(st('Unable to connect to the repository %e', array('%e' => $e)), 'error');
-    return;
-  }
-
-  // get object models
-  $required_objects = islandora_basic_image_islandora_required_objects();
-  $objects = $required_objects['islandora_basic_image']['objects'];
-
-  // ingest all objects
-  foreach ($objects as $object) {
-    $pid = $object['pid'];
-    $label = isset($object['label']) ? $object['label'] : st('Object') ;
-    
-    // purge object
-    // check if object already exits
-    $query = $connection->api->a->findObjects('query', 'pid=' . $pid);
-    if (!empty($query['results'])) {
-      drupal_set_message(st('Islandora basic image: @label already exists.', array('@label' => $label)), 'warning');
-      return;
-    }
-    // build and ingest new object
-    islandora_ingest_new_object($object);
-    // set message
-    drupal_set_message(st('Islandora basic image: @label installed.', array('@label' => $label)));
-  }
+  module_load_include('inc', 'islandora', 'includes/solution_packs');
+  // install solution pack object(s)
+  islandora_install_solution_pack('islandora_basic_image');
 }
 
 /**
  * Implements hook_uninstall().
  */
 function islandora_basic_image_uninstall() {
-  module_load_include('inc', 'islandora', 'includes/tuque');
-  global $user;
-  global $base_url;
-  try {
-    $connection = new IslandoraTuque($user);
-  } catch (Exception $e) {
-    drupal_set_message(st('Unable to connect to the repository %e', array('%e' => $e)), 'error');
-    return;
-  }
-
-  $content_model_query = $connection->api->a->findObjects('query', 'pid=islandora:sp_basic_image');
-  if (!empty($content_model_query['results'])) {
-    $link = l('islandora:sp_basic_image', $base_url . '/islandora/object/islandora:sp_basic_image');
-    drupal_set_message(st('Did not remove %s. It may be used by other sites.' . $link, array('%s' => 'islandora:sp_basic_image')), 'warning');
-  }
-
-  $collection_query = $connection->api->a->findObjects('query', 'pid=islandora:sp_basic_image_collection');
-  if (!empty($collection_query['results'])) {
-    $link = l('islandora:sp_basic_image', $base_url . '/islandora/object/islandora:sp_basic_image_collection');
-    drupal_set_message(st('Did not remove %s. It may be used by other sites.' . $link, array('%s' => 'islandora:sp_basic_image_collection')), 'warning');
-  }
+  module_load_include('inc', 'islandora', 'includes/solution_packs');
+  // uninstall callback
+  islandora_install_solution_pack('islandora_basic_image', 'uninstall');
 }
