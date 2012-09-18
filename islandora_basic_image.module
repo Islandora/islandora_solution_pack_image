@@ -94,6 +94,60 @@ function islandora_basic_image_init() {
 }
 
 /**
+ * Implements hook_required_objects().
+ */
+function islandora_basic_image_islandora_required_objects() {
+
+  // module path
+  $module_path = drupal_get_path('module', 'islandora_basic_image');
+
+  return array(
+    'islandora_basic_image' => array(
+      'module' => 'islandora_basic_image',
+      'title' => 'Islandora basic image solution pack',
+      'objects' => array(
+        array(
+          'pid' => 'islandora:sp_basic_image',
+          'label' => 'Islandora basic image content model',
+          'cmodel' => 'fedora-system:ContentModel-3.0',
+          'datastreams' => array(
+            array(
+              'dsid' => 'ISLANDORACM',
+              'label' => 'Islandora content model',
+              'mimetype' => 'text/xml',
+              'control_group' => 'X',
+              'datastream_file' => "$module_path/xml/islandora_basic_image_content_model.xml",
+            ),
+          ),
+        ),
+        array(
+          'pid' => 'islandora:sp_basic_image_collection',
+          'label' => 'Islandora basic image collection',
+          'cmodel' => 'islandora:collectionCModel',
+          'parent' => 'islandora:root',
+          'datastreams' => array(
+            array(
+              'dsid' => 'COLLECTION_POLICY',
+              'label' => 'Collection policy',
+              'mimetype' => 'text/xml',
+              'control_group' => 'X',
+              'datastream_file' => "$module_path/xml/islandora_basic_image_collection_policy.xml",
+            ),
+            array(
+              'dsid' => 'TN',
+              'label' => 'Thumbnail',
+              'mimetype' => 'image/png',
+              'control_group' => 'M',
+              'datastream_file' => "$module_path/images/folder.png",
+            ),
+          ),
+        ),
+      ),
+    ),
+  );
+}
+
+/**
  * Theme registry function
  * We supply a pattern so we can overide templates at the theme level if needed.
  * we can append a pid to a template and the new template file will be called (the pids
