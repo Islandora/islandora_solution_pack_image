@@ -122,7 +122,7 @@ function islandora_basic_image_islandora_required_objects() {
               'label' => 'DS-COMPOSITE-MODEL',
               'mimetype' => 'text/xml',
               'control_group' => 'X',
-              'datastream_file' => "$module_path/xml/islandora_basic_image_ds_composite_model.xml",              
+              'datastream_file' => "$module_path/xml/islandora_basic_image_ds_composite_model.xml",
             ),
           ),
         ),
