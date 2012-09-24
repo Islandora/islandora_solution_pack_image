@@ -42,7 +42,7 @@
   </div>
   </div>
   <fieldset class="collapsible collapsed islandora-basic-image-metadata">
-  <legend><span class="fieldset-legend"><?php print t('Extended details'); ?></span></legend>
+  <legend><span class="fieldset-legend"><?php print t('Details'); ?></span></legend>
     <div class="fieldset-wrapper">
       <dl class="islandora-inline-metadata islandora-basic-image-fields">
         <?php $row_field = 0; ?>

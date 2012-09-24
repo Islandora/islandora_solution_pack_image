@@ -1,4 +1,4 @@
-name = "Islandora Basic Image"
+name = "Islandora basic image"
 description = "A default Islandora Repository module to handle images"
 dependencies[] = islandora
 package = Islandora
