@@ -6,7 +6,7 @@
  */
 
 /**
- * islandora image sp required fedora objects
+ * Implements hook_fedora_repository_required_fedora_objects
  *
  * @return type
  */
