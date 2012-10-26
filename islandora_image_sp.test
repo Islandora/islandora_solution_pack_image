@@ -1,0 +1,33 @@
+<?php
+
+module_load_include('inc', 'fedora_repository', 'fedora_repository.solutionpacks');
+
+/**
+ * @file
+ * All tests relating to Islandora's Image Solution Pack.
+ */
+class ImageSolutionPackTestCase extends SolutionPackTestCase {
+
+  /**
+   * Returns properties that are displayed in the test selection form.
+   *
+   * @return array - An associative array of info used to populate the test selection form
+   */
+  public static function getInfo() {
+    return array(
+      'name' => 'Islandora Image Solution Pack Test Case',
+      'description' => "Functional tests for the Islandora Image Solution Pack.",
+      'group' => 'Solution Packs',
+    );
+  }
+ 
+  /**
+   * Overridden to provide the short form name of the module being tested.
+   *
+   * @return string - 'islandora_image_sp'
+   */
+  protected function getModuleShortFormName() { 
+    return 'islandora_image_sp';
+  }
+
+}
