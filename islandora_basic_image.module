@@ -173,32 +173,17 @@ function islandora_basic_image_theme($existing, $type, $theme, $path) {
 }
 
 /**
- * Implements hook_islandora_type_info().
+ * Implements hook_CMODEL_PID_islandora_view_object().
  */
-function islandora_basic_image_islandora_type_info() {
-  $types = array(
-    'islandora:sp_basic_image' => array(
-      'islandora_basic_image' => array(
-        ISLANDORA_VIEW_HOOK => variable_get('islandora_basic_image_use_for_default_tab', TRUE),
-        ISLANDORA_POST_INGEST_HOOK => TRUE,
-      ),
-    ),
-  );
-  return $types;
-}
-
-/**
- * Implements hook_islandora_view_object().
- */
-function islandora_basic_image_islandora_view_object($object, $user, $page_number, $page_size) {
+function islandora_basic_image_islandora_sp_basic_image_islandora_view_object($object, $user, $page_number, $page_size) {
   $output = theme('islandora_basic_image', array('islandora_object' => $object));
   return array('' => $output);
 }
 
 /** 
- * Implements hook_islandora_ingest_post_ingest().
+ * Implements hook_CMODEL_PID_islandora_ingest_post_ingest().
  */
-function islandora_basic_image_islandora_ingest_post_ingest($object) {
+function islandora_basic_image_islandora_sp_basic_image_islandora_ingest_post_ingest($object) {
   module_load_include('inc', 'islandora_basic_image', 'includes/image.process');
   islandora_basic_image_create_all_derivatives($object);
 }
