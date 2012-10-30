@@ -2,7 +2,7 @@
 
 /**
  * @file
- * islandora-basic-image.install
+ * islandora_basic_image.install
  */
 
 /**
@@ -14,7 +14,7 @@ function islandora_basic_image_requirements($phase) {
     if (!IslandoraTuque::exists()) {
       return array(array(
           'title' => 'Tuque',
-          'description' => 'The Islandora Collection solution pack requires the Tuque library.',
+          'description' => 'The Islandora Basic Image solution pack requires the Tuque library.',
           'severity' => REQUIREMENT_ERROR,
           ));
     }
