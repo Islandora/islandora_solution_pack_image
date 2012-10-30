@@ -7,6 +7,7 @@
 
 /**
  * Implements hook_menu().
+ *
  * If you need to add secondary tabs to either view or manage you would create a
  * hook_menu function similar to below.  You would also need to create an access function
  * to tell islandora when to show your tabs.  There is an example below.
@@ -88,6 +89,7 @@ function islandora_basic_image_menu() {
   } */
 
 function islandora_basic_image_init() {
+  // @TODO: should be called from sp admin page, not everywhere in admin.
   if (path_is_admin(current_path())) {
     drupal_add_css(drupal_get_path('module', 'islandora_basic_image') . '/css/islandora_basic_image.admin.css');
   }
@@ -154,7 +156,8 @@ function islandora_basic_image_islandora_required_objects() {
 }
 
 /**
- * Theme registry function
+ * Implements hook_theme().
+ *
  * We supply a pattern so we can overide templates at the theme level if needed.
  * we can append a pid to a template and the new template file will be called (the pids
  * colon should be replaced with a dash)
@@ -173,6 +176,8 @@ function islandora_basic_image_theme($existing, $type, $theme, $path) {
 }
 
 /**
+ * Implements hook_islandora_get_types().
+ *
  * tells the main module what types of objects we support.  This is used to determine whether or not
  * this module should attempt to respond.
  * @return array
