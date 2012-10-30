@@ -53,6 +53,26 @@ function islandora_basic_image_menu() {
 }
 
 /**
+ * Implements hook_theme().
+ *
+ * We supply a pattern so we can overide templates at the theme level if needed.
+ * we can append a pid to a template and the new template file will be called (the pids
+ * colon should be replaced with a dash)
+ * @return array
+ */
+function islandora_basic_image_theme($existing, $type, $theme, $path) {
+  return array(
+    'islandora_basic_image' => array(
+      'template' => 'theme/islandora-basic-image',
+      'pattern' => 'islandora_basic_image__', //we can add pids to the end of this pattern in our preprocess function
+      // and templates will be able to have have a pid appended to the template name to overide a template on a per object basis
+      //an example template would be named islandora-basic-image--islandora-27.tpl.phps
+      'variables' => array('islandora_object' => NULL),
+    )
+  );
+}
+
+/**
  * an example of adding a new managment section to the manage section of islandora.
  * The islandora_basic_image_access function determines whether or not to show this
  * section.
@@ -87,13 +107,6 @@ function islandora_basic_image_menu() {
   function islandora_basic_image_view2($object_id){
   return 'Another view returned by the image cmodel';
   } */
-
-function islandora_basic_image_init() {
-  // @TODO: should be called from sp admin page, not everywhere in admin.
-  if (path_is_admin(current_path())) {
-    drupal_add_css(drupal_get_path('module', 'islandora_basic_image') . '/css/islandora_basic_image.admin.css');
-  }
-}
 
 /**
  * Implements hook_islandora_required_objects().
@@ -156,22 +169,30 @@ function islandora_basic_image_islandora_required_objects() {
 }
 
 /**
- * Implements hook_theme().
- *
- * We supply a pattern so we can overide templates at the theme level if needed.
- * we can append a pid to a template and the new template file will be called (the pids
- * colon should be replaced with a dash)
- * @return array
+ * Implements hook_islandora_xml_form_builder_forms().
  */
-function islandora_basic_image_theme($existing, $type, $theme, $path) {
+function islandora_basic_image_islandora_xml_form_builder_forms() {
+  $module_path = drupal_get_path('module', 'islandora_basic_image');
   return array(
-    'islandora_basic_image' => array(
-      'template' => 'theme/islandora-basic-image',
-      'pattern' => 'islandora_basic_image__', //we can add pids to the end of this pattern in our preprocess function
-      // and templates will be able to have have a pid appended to the template name to overide a template on a per object basis
-      //an example template would be named islandora-basic-image--islandora-27.tpl.phps
-      'variables' => array('islandora_object' => NULL),
-    )
+    'Basic image MODS form' => array(
+      'form_file' => "$module_path/xml/islandora_basic_image_form_mods.xml",
+    ),
+  );
+}
+
+/**
+ * Implements hook_islandora_content_model_forms_form_associations().
+ */
+function islandora_basic_image_islandora_content_model_forms_form_associations() {
+  return array(
+    'islandora_basic_image_mods_form' => array(
+      'content_model' => 'islandora:sp_basic_image',
+      'form_name' => 'Basic image MODS form',
+      'dsid' => 'MODS',
+      'title_field' => "['titleInfo']['title']",
+      'transform' => 'mods_to_dc.xsl',
+      'template' => FALSE,
+    ),
   );
 }
 
