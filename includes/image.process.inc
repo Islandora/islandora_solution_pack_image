@@ -10,10 +10,11 @@
  * @param object $object
  *   tuque FedoraObject
  * @return string
+ *
+ * @TODO: is the exif derivative missing here?
  */
 function islandora_basic_image_create_all_derivatives($object) {
   module_load_include('inc', 'islandora', 'includes/mime.detect');
-  module_load_include('inc', 'islandora_basic_image', 'includes/image_process');
   $mime_class = new MimeDetect();
   if (!isset($object['OBJ'])) {
     drupal_set_message(t('Could not create image derivatives for %s.  No image file was uploaded.', array('%s' => $object->id)), 'error');
@@ -38,6 +39,8 @@ function islandora_basic_image_create_all_derivatives($object) {
  *
  * @param object $file
  *   stdclass
+ *
+ * @TODO: could this be a generic function? eg: islandora_create_derivative($file, $width, $height). ?
  */
 function islandora_basic_image_create_derivative($file, $width, $height) {
   $real_path = drupal_realpath($file->uri);
@@ -56,6 +59,8 @@ function islandora_basic_image_create_derivative($file, $width, $height) {
  * @param object $object
  * @param string $dsid
  * @param object $file
+ *
+ * @TODO: could this be a generic function? eg: islandora_add_datastream($object, $dsid, $file). ?
  */
 function islandora_basic_image_add_datastream($object, $dsid, $file) {
   try {

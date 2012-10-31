@@ -6,6 +6,9 @@
  */
 
 function islandora_basic_image_admin() {
+  // add css
+  drupal_add_css(drupal_get_path('module', 'islandora_basic_image') . '/css/islandora_basic_image.admin.css');
+
   $form = array();
   $form['islandora_basic_image_use_for_default_tab'] = array(
     '#type' => 'checkbox',
