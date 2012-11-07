@@ -9,23 +9,15 @@
  */
 ?>
 
-<?php if(isset($islandora_object_label)): ?>
-  <?php drupal_set_title("$islandora_object_label"); ?>
-<?php endif; ?>
-
 <div class="islandora-basic-image-object islandora">
   <div class="islandora-basic-image-content-wrapper clearfix">
-    <?php if (isset($islandora_medium_img)): ?>
+    <?php if (isset($islandora_content)): ?>
       <div class="islandora-basic-image-content">
-      <?php if (isset($islandora_full_url)): ?>
-        <?php print l($islandora_medium_img, $islandora_full_url, array('html' => TRUE)); ?>
-      <?php elseif (isset($islandora_medium_img)): ?>
-        <?php print $islandora_medium_img; ?>
-      <?php endif; ?>
+        <?php print $islandora_content; ?>
       </div>
     <?php endif; ?>
   <div class="islandora-basic-image-sidebar">
-    <?php if (isset($dc_array['dc:description']['value'])): ?>
+    <?php if (!empty($dc_array['dc:description']['value'])): ?>
       <h2><?php print $dc_array['dc:description']['label']; ?></h2>
       <p><?php print $dc_array['dc:description']['value']; ?></p>
     <?php endif; ?>

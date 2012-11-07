@@ -14,15 +14,6 @@
  */
 function islandora_basic_image_menu() {
   $items = array();
-  $items['admin/islandora/basic_image'] = array(
-    'title' => 'Basic Image collection',
-    'description' => 'Configure the Basic Image solution pack.',
-    'page callback' => 'drupal_get_form',
-    'access arguments' => array('administer site configuration'),
-    'page arguments' => array('islandora_basic_image_admin'),
-    'file' => 'admin/islandora_basic_image.admin.inc',
-    'type' => MENU_NORMAL_ITEM,
-  );
   /* example menu paths
     $items['islandora/object/%/manage/image'] = array(
     'title' => 'Manage Image Types',
@@ -173,7 +164,7 @@ function islandora_basic_image_islandora_required_objects() {
 /**
  * Implements hook_CMODEL_PID_islandora_view_object().
  */
-function islandora_basic_image_islandora_sp_basic_image_islandora_view_object($object, $user, $page_number, $page_size) {
+function islandora_basic_image_islandora_sp_basic_image_islandora_view_object($object, $page_number, $page_size) {
   $output = theme('islandora_basic_image', array('islandora_object' => $object));
   return array('' => $output);
 }
@@ -212,18 +203,43 @@ function islandora_basic_image_preprocess_islandora_basic_image(&$variables) {
   $variables['theme_hook_suggestions'][] = 'islandora_basic_image__' . str_replace(':', '_', $islandora_object->id);
   $variables['parent_collections'] = islandora_datastream_get_parents($islandora_object);
   global $base_url;
+  // set title
+  if(isset($islandora_object->label)) {
+    drupal_set_title($islandora_object->label);
+  }
+  // original
   if (isset($islandora_object['OBJ'])) {
-    $full_size_url = $base_url . '/islandora/object/' . $islandora_object->id . '/datastream/OBJ/view';
+    $full_size_url = url("islandora/object/{$islandora_object->id}/datastream/OBJ/view", array('absolute' => TRUE));
     $variables['islandora_full_url'] = $full_size_url;
-    $variables['islandora_full_img'] = '<img src="' . $full_size_url . '"/>';
+    $params = array(
+      'title' => $islandora_object->label,
+      'path' => $full_size_url
+    );
+    $variables['islandora_full_img'] = theme('image', $params);
   }
+  // thumbnail
   if (isset($islandora_object['TN'])) {
-    $thumbnail_size_url = $base_url . '/islandora/object/' . $islandora_object->id . '/datastream/TN/view';
-    $variables['islandora_thumbnail_img'] = '<img src="' . $thumbnail_size_url . '"/>';
+    $thumbnail_size_url = url("islandora/object/{$islandora_object->id}/datastream/TN/view");
+    $params = array(
+      'title' => $islandora_object->label,
+      'path' => $thumbnail_size_url
+    );
+    $variables['islandora_thumbnail_img'] = theme('image', $params);
   }
+  // medium size
   if (isset($islandora_object['MEDIUM_SIZE'])) {
-    $medium_size_url = $base_url . '/islandora/object/' . $islandora_object->id . '/datastream/MEDIUM_SIZE/view';
-    $variables['islandora_medium_img'] = '<img src="' . $medium_size_url . '"/>';
+    $medium_size_url = url("islandora/object/{$islandora_object->id}/datastream/MEDIUM_SIZE/view");
+    $params = array(
+      'title' => $islandora_object->label,
+      'path' => $medium_size_url
+    );
+    $variables['islandora_medium_img'] = theme('image', $params);
+    if (isset($full_size_url)) {
+      $variables['islandora_content'] = l($variables['islandora_medium_img'], $full_size_url, array('html' => TRUE));
+    }
+    else {
+      $variables['islandora_content'] = $variables['islandora_medium_img'];      
+    }
   }
 }
 
