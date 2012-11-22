@@ -14,7 +14,6 @@
  * @TODO: is the exif derivative missing here?
  */
 function islandora_basic_image_create_all_derivatives($object) {
-  module_load_include('inc', 'islandora', 'includes/mime.detect');
   $mime_class = new MimeDetect();
   if (!isset($object['OBJ'])) {
     drupal_set_message(t('Could not create image derivatives for %s.  No image file was uploaded.', array('%s' => $object->id)), 'error');
@@ -74,4 +73,3 @@ function islandora_basic_image_add_datastream($object, $dsid, $file) {
     drupal_set_message(t('@message', array('@message' => check_plain($e->getMessage()))), 'error');
   }
 }
-
