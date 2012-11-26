@@ -14,12 +14,12 @@
  * @TODO: is the exif derivative missing here?
  */
 function islandora_basic_image_create_all_derivatives($object) {
-  $mime_class = new MimeDetect();
+  $mime_detect = new MimeDetect();
   if (!isset($object['OBJ'])) {
     drupal_set_message(t('Could not create image derivatives for %s.  No image file was uploaded.', array('%s' => $object->id)), 'error');
     return "";
   }
-  $ext = $mime_class->getExtension($object['OBJ']->mimeType);
+  $ext = $mime_detect->getExtension($object['OBJ']->mimeType);
   $file_name = str_replace(':', '-', $object->id);
   $original_file = file_save_data($object['OBJ']->content, 'temporary://' . $file_name . 'OBJ.' . $ext);
   $tn_file = file_copy($original_file, 'temporary://' . $file_name . 'TN.' . $ext);
@@ -32,7 +32,6 @@ function islandora_basic_image_create_all_derivatives($object) {
   }
   file_delete($original_file);
 }
-
 
 /**
  *
