@@ -10,8 +10,6 @@
  * @param object $object
  *   tuque FedoraObject
  * @return string
- *
- * @TODO: is the exif derivative missing here?
  */
 function islandora_basic_image_create_all_derivatives($object) {
   $mime_detect = new MimeDetect();
