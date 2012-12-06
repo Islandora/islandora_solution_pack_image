@@ -272,9 +272,9 @@ function islandora_basic_image_islandora_xml_form_builder_forms() {
 /**
  * Implements hook_islandora_ingest_steps().
  */
-function islandora_basic_image_islandora_sp_basic_image_islandora_ingest_steps(array $configuration) {
+function islandora_basic_image_islandora_sp_basic_image_islandora_ingest_steps() {
   return array(
-    array(
+    'islandora_basic_image' => array(
       'weight' => 10,
       'type' => 'form',
       'form_id' => 'islandora_basic_image_image_upload_form',
