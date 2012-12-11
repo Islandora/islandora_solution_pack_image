@@ -105,57 +105,51 @@ function islandora_basic_image_theme($existing, $type, $theme, $path) {
 /**
  * Implements hook_islandora_required_objects().
  */
-function islandora_basic_image_islandora_required_objects() {
+function islandora_basic_image_islandora_required_objects(IslandoraTuque $connection) {
   $module_path = drupal_get_path('module', 'islandora_basic_image');
+  // Image Content Model
+  $image_content_model = $connection->repository->constructObject('islandora:sp_basic_image');
+  $image_content_model->owner = 'fedoraAdmin';
+  $image_content_model->label = 'Islandora Basic Image Content Model';
+  $image_content_model->models = 'fedora-system:ContentModel-3.0';
+  // ISLANDORACM Datastream
+  $datastream = $image_content_model->constructDatastream('ISLANDORACM', 'X');
+  $datastream->label = 'Islandora content model';
+  $datastream->mimetype = 'text/xml';
+  $datastream->setContentFromFile("$module_path/xml/islandora_basic_image_content_model.xml", FALSE);
+  $image_content_model->ingestDatastream($datastream);
+  // DS-COMPOSITE-MODEL Datastream
+  $datastream = $image_content_model->constructDatastream('DS-COMPOSITE-MODEL', 'X');
+  $datastream->label = 'DS-COMPOSITE-MODEL';
+  $datastream->mimetype = 'text/xml';
+  $datastream->setContentFromFile("$module_path/xml/islandora_basic_image_ds_composite_model.xml", FALSE);
+  $image_content_model->ingestDatastream($datastream);
+  // Image Collection
+  $image_collection = $connection->repository->constructObject('islandora:sp_basic_image_collection');
+  $image_collection->owner = 'fedoraAdmin';
+  $image_collection->label = 'Basic Image Collection';
+  $image_collection->models = 'islandora:collectionCModel';
+  $image_collection->relationships->add(FEDORA_RELS_EXT_URI, 'isMemberOfCollection', 'islandora:root');
+  // Collection Policy Datastream
+  $datastream = $image_collection->constructDatastream('COLLECTION_POLICY', 'X');
+  $datastream->label = 'Collection policy';
+  $datastream->mimetype = 'text/xml';
+  $datastream->setContentFromFile("$module_path/xml/islandora_basic_image_collection_policy.xml", FALSE);
+  $image_collection->ingestDatastream($datastream);
+  // TN Datastream
+  $datastream = $image_collection->constructDatastream('TN', 'M');
+  $datastream->label = 'Thumbnail';
+  $datastream->mimetype = 'image/png';
+  $datastream->setContentFromFile("$module_path/images/folder.png", FALSE);
+  $image_collection->ingestDatastream($datastream);
   return array(
     'islandora_basic_image' => array(
       'title' => 'Islandora basic image',
       'objects' => array(
-        array(
-          'pid' => 'islandora:sp_basic_image',
-          'label' => 'Islandora basic image content model',
-          'cmodel' => 'fedora-system:ContentModel-3.0',
-          'datastreams' => array(
-            array(
-              'dsid' => 'ISLANDORACM',
-              'label' => 'Islandora content model',
-              'mimetype' => 'text/xml',
-              'control_group' => 'X',
-              'datastream_file' => "$module_path/xml/islandora_basic_image_content_model.xml",
-            ),
-            array(
-              'dsid' => 'DS-COMPOSITE-MODEL',
-              'label' => 'DS-COMPOSITE-MODEL',
-              'mimetype' => 'text/xml',
-              'control_group' => 'X',
-              'datastream_file' => "$module_path/xml/islandora_basic_image_ds_composite_model.xml",
-            ),
-          ),
-        ),
-        array(
-          'pid' => 'islandora:sp_basic_image_collection',
-          'label' => 'Basic image collection',
-          'cmodel' => 'islandora:collectionCModel',
-          'parent' => 'islandora:root',
-          'datastreams' => array(
-            array(
-              'dsid' => 'COLLECTION_POLICY',
-              'label' => 'Collection policy',
-              'mimetype' => 'text/xml',
-              'control_group' => 'X',
-              'datastream_file' => "$module_path/xml/islandora_basic_image_collection_policy.xml",
-            ),
-            array(
-              'dsid' => 'TN',
-              'label' => 'Thumbnail',
-              'mimetype' => 'image/png',
-              'control_group' => 'M',
-              'datastream_file' => "$module_path/images/folder.png",
-            ),
-          ),
-        ),
-      ),
-    ),
+        $image_content_model,
+        $image_collection
+      )
+    )
   );
 }
 
