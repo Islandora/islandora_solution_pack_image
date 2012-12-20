@@ -19,7 +19,18 @@ function islandora_basic_image_create_all_derivatives($object) {
   }
   $ext = $mime_detect->getExtension($object['OBJ']->mimeType);
   $file_name = str_replace(':', '-', $object->id);
-  $original_file = file_save_data($object['OBJ']->content, 'temporary://' . $file_name . 'OBJ.' . $ext);
+
+  // Create a file object we can save.
+  $file_uri = file_create_filename("{$file_name}OBJ.{$ext}", 'temporary://');
+  $file = new stdClass();
+  $file->uri = $file_uri;
+  $file->filename = $file_name;
+  $file->filemime = $object['OBJ']->mimeType;
+  // Temporary.
+  $file->status = 0;
+  $object['OBJ']->getContent($file_uri);
+  $original_file = file_save($file);
+
   $tn_file = file_copy($original_file, 'temporary://' . $file_name . 'TN.' . $ext);
   if (islandora_basic_image_create_derivative($tn_file, 200, 200)) {
     islandora_basic_image_add_datastream($object, 'TN', $tn_file);
