@@ -1,17 +1,17 @@
 <?php
+
 /**
  * @file
- * This file contains all the functions for image manipulation used in the
- * basic image solution pack.
+ * Functions deriving images for objects.
  */
 
 /**
- * creates the derivatives for this content model type
- * @param object $object
- *   tuque FedoraObject
- * @return string
+ * Creates the derivatives for this content model type.
+ *
+ * @param FedoraObject $object
+ *   The object to add derivatives to.
  */
-function islandora_basic_image_create_all_derivatives($object) {
+function islandora_basic_image_create_all_derivatives(FedoraObject $object) {
   $mime_detect = new MimeDetect();
   if (!isset($object['OBJ'])) {
     drupal_set_message(t('Could not create image derivatives for %s.  No image file was uploaded.', array('%s' => $object->id)), 'error');
@@ -32,24 +32,30 @@ function islandora_basic_image_create_all_derivatives($object) {
   $original_file = file_save($file);
 
   $tn_file = file_copy($original_file, 'temporary://' . $file_name . 'TN.' . $ext);
-  if (islandora_basic_image_create_derivative($tn_file, 200, 200)) {
+  if (islandora_basic_image_scale_image($tn_file, 200, 200)) {
     islandora_basic_image_add_datastream($object, 'TN', $tn_file);
   }
   $medium_file = file_copy($original_file, 'temporary://' . $file_name . 'MEDIUM.' . $ext);
-  if (islandora_basic_image_create_derivative($medium_file, 500, 700)) {
+  if (islandora_basic_image_scale_image($medium_file, 500, 700)) {
     islandora_basic_image_add_datastream($object, 'MEDIUM_SIZE', $medium_file);
   }
   file_delete($original_file);
 }
 
 /**
+ * Scales the given image.
  *
  * @param object $file
- *   stdclass
+ *   The image file to scale.
+ * @param int $width
+ *   The width to scale the derived image to.
+ * @param int $height
+ *   The height to scale the derived image to.
  *
- * @TODO: could this be a generic function? eg: islandora_create_derivative($file, $width, $height). ?
+ * @return bool
+ *   TRUE if successful, FALSE otherwise.
  */
-function islandora_basic_image_create_derivative($file, $width, $height) {
+function islandora_basic_image_scale_image($file, $width, $height) {
   $real_path = drupal_realpath($file->uri);
   $image = image_load($real_path);
   if (!empty($image)) {
@@ -62,14 +68,16 @@ function islandora_basic_image_create_derivative($file, $width, $height) {
 }
 
 /**
- * adds a datastream and deletes the tmp file from local file system
- * @param object $object
- * @param string $dsid
- * @param object $file
+ * Adds a datastream to an object.
  *
- * @TODO: could this be a generic function? eg: islandora_add_datastream($object, $dsid, $file). ?
+ * @param FedoraObject $object
+ *   The object to add a datastream to.
+ * @param string $dsid
+ *   The datastream ID to be added.
+ * @param string $file
+ *   The URI of the file to be added as the datastream content.
  */
-function islandora_basic_image_add_datastream($object, $dsid, $file) {
+function islandora_basic_image_add_datastream(FedoraObject $object, $dsid, $file) {
   try {
     $ds = $object->constructDatastream($dsid, 'M');
     $ds->label = $dsid;
@@ -77,7 +85,8 @@ function islandora_basic_image_add_datastream($object, $dsid, $file) {
     $ds->setContentFromFile(drupal_realpath($file->uri));
     $object->ingestDatastream($ds);
     file_delete($file);
-  } catch (exception $e) {
+  }
+  catch (exception $e) {
     drupal_set_message(t('@message', array('@message' => check_plain($e->getMessage()))), 'error');
   }
 }
