@@ -2,7 +2,7 @@
 
 /**
  * @file
- * islandora_basic_image.install
+ * Install hooks for this module.
  */
 
 /**
