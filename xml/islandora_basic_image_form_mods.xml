@@ -2,7 +2,7 @@
 <definition xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2">
     <properties>
         <root_name>mods</root_name>
-        <schema_uri>http://www.loc.gov/standards/mods/v3/mods-3-4.xsd</schema_uri>
+        <schema_uri></schema_uri>
         <namespaces default="http://www.loc.gov/mods/v3">
             <namespace prefix="mods">http://www.loc.gov/mods/v3</namespace>
             <namespace prefix="xsi">http://www.w3.org/2001/XMLSchema-instance</namespace>
@@ -13,23 +13,10 @@
         <properties>
             <type>form</type>
             <access>TRUE</access>
-            <attributes>
-                <enctype>multipart/form-data</enctype>
-            </attributes>
             <required>FALSE</required>
             <tree>TRUE</tree>
         </properties>
         <children>
-            <element name="ingest-file-location">
-                <properties>
-                    <type>file</type>
-                    <access>TRUE</access>
-                    <description>Select image to upload.</description>
-                    <required>FALSE</required>
-                    <tree>TRUE</tree>
-                </properties>
-                <children/>
-            </element>
             <element name="titleInfo">
                 <properties>
                     <type>markup</type>
@@ -58,7 +45,7 @@
                         <properties>
                             <type>textfield</type>
                             <access>TRUE</access>
-                            <required>FALSE</required>
+                            <required>TRUE</required>
                             <title>Title</title>
                             <tree>TRUE</tree>
                             <actions>
@@ -1180,15 +1167,6 @@
                         </children>
                     </element>
                 </children>
-            </element>
-            <element name="submit">
-                <properties>
-                    <type>submit</type>
-                    <access>TRUE</access>
-                    <tree>TRUE</tree>
-                    <value>Submit</value>
-                </properties>
-                <children/>
             </element>
         </children>
     </form>
