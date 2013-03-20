@@ -11,16 +11,16 @@
   <dsTypeModel ID="MODS" optional="true">
     <form FORMAT_URI="http://www.loc.gov/mods/v3" MIME="text/xml"></form>
   </dsTypeModel>
-  <dsTypeModel ID="TECHMD">
+  <dsTypeModel ID="TECHMD" optional="true">
     <form MIME="text/xml"></form>
   </dsTypeModel>
-  <dsTypeModel ID="TN" ORDERED="false">
+  <dsTypeModel ID="TN" ORDERED="false" optional="true">
     <form MIME="image/jpg"></form>
   </dsTypeModel>
-  <dsTypeModel ID="MEDIUM_SIZE" ORDERED="false">
+  <dsTypeModel ID="MEDIUM_SIZE" ORDERED="false" optional="true">
     <form MIME="image/jpg"></form>
   </dsTypeModel>
-  <dsTypeModel ID="OBJ" ORDERED="false">
+  <dsTypeModel ID="OBJ" ORDERED="false" optional="true">
     <form MIME="image/jpg"></form>
   </dsTypeModel>
   
