@@ -14,7 +14,7 @@
 function islandora_basic_image_create_all_derivatives(FedoraObject $object) {
   $mime_detect = new MimeDetect();
   if (!isset($object['OBJ'])) {
-    drupal_set_message(t('Could not create image derivatives for %s.  No image file was uploaded.', array('%s' => $object->id)), 'error');
+    drupal_set_message(t('Could not create image derivatives for %s. No image file was uploaded.', array('%s' => $object->id)), 'error');
     return "";
   }
   $ext = $mime_detect->getExtension($object['OBJ']->mimeType);
