@@ -1,0 +1,78 @@
+<?php
+
+/**
+ * @file
+ * Attempts to ingest an image into the Basic Image Collection
+ */
+
+class IslandoraBasicImageIngestTestCase extends IslandoraWebTestCase {
+
+  /**
+   * Get test information.
+   *
+   * @see IslandoraWebTestCase::getInfo()
+   */
+  public static function getInfo() {
+    return array(
+      'name' => 'Islandora Basic Image Collection Ingest',
+      'description' => 'Attempt to ingest a single image into the Basic Image Collection',
+      'group' => 'Islandora Object Ingest',
+    );
+  }
+
+  /**
+   * Set up the test environment
+   *
+   * Threw every single one of the necessary dependencies in here, because even though it said it activates dependencies, it wasn't doing it.
+   * @XXX - this is still completely broken. Suspect that a bunch of other form stuff isn't getting started that needs to be started. A bunch of this will probably have to be broken out into an initialization function in IslandoraWebTestCase
+   *
+   * @see IslandoraWebTestCase::setUp()
+   */
+  public function setUp() {
+    parent::setUp(array('islandora', 'xml_form_api', 'islandora_basic_image', 'islandora_basic_collection', 'objective_forms', 'php_lib', 'xml_forms', 'xml_form_elements', 'xml_schema_api', 'xml_form_builder'));
+    module_load_include('inc', 'islandora', 'includes/solution_packs');
+    islandora_install_solution_pack('islandora_basic_image');
+    module_load_include('inc', 'islandora', 'includes/solution_packs');
+    islandora_install_solution_pack('islandora_basic_collection');
+  }
+
+  /**
+   * A function to create a user with administrative privileges. Pretty much a flamethrower solution to the problem of 'ingest permissions'.
+   * @TODO - this should probably be broken out into IslandoraWebTestCase, because I have a tingly feeling that we're going to need it in other tests.
+   */
+  public function createAdminUser(array $permissions = array()) {
+    $roles = user_roles();
+    $index = array_search('administrator', $roles);
+    $user = $this->drupalCreateUser($permissions);
+    $user->roles[$index] = 'administrator';
+    return user_save($user);
+  }
+
+  /**
+   * Creates an administrative user and attempts to ingest a test image.
+   */
+  public function testIngestBasicImage() {
+    $user = $this->createAdminUser();
+    $this->drupalLogin($user);
+    $path = 'islandora/object/islandora%3Asp_basic_image_collection/manage/overview/ingest';
+    $edit = array();
+    $title = $this->randomString(16);
+    $edit['titleInfo[title]'] = $title;
+    $this->drupalPost('islandora/object/islandora%3Asp_basic_image_collection/manage/overview/ingest', $edit, t('Next'), 0);
+    $edit = array();
+    $file = drupal_get_path('module', 'islandora_basic_image') . '/tests/fixtures/test.png';
+    $edit['files[file]'] = $file;
+    $this->drupalPost('NULL', $edit, t('Ingest'));
+    $this->assertText(t($title), 'Correctly-named image object was created.');
+    $this->clickLink(t('Manage'));
+    $this->clickLink(t('Datastreams'));
+
+    // Determines whether or not the appropriate datastreams were created
+    $this->assertText(t('Fedora Object to Object Relationship Metadata.'), 'RELS-EXT datastream created.');
+    $this->assertText(t('MODS Record'), 'MODS datastream created.');
+    $this->assertText(t('DC Record'), 'Dublin Core datastream created.');
+    $this->assertText(t('test.png'), 'test.png OBJ datastream created.');
+    $this->assertText(t('TN'), 'Thumbnail datastream created.');
+    $this->assertText(t('MEDIUM_SIZE'), 'Medium-sized image derivative datastream created.');
+  }
+}
