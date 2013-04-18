@@ -5,14 +5,13 @@
  * Attempts to ingest an image into a randomly generated image collection
  */
 
-class IslandoraBasicImageIngestTestCase extends IslandoraWebTestCase {
+class IslandoraBasicImageIngestTestCase extends CollectionWebTestCase {
 
   /**
    * Get test information.
    *
    * @see IslandoraWebTestCase::getInfo()
    */
-
   public static function getInfo() {
     return array(
       'name' => 'Basic Image Ingest/Purge',
@@ -22,15 +21,16 @@ class IslandoraBasicImageIngestTestCase extends IslandoraWebTestCase {
   }
 
   /**
-   * Set up the test environment
-   *
-   * Threw every single one of the necessary dependencies in here, because even though it said it activates dependencies, it wasn't doing it.
+   * Set up the test environment.
    *
    * @see IslandoraWebTestCase::setUp()
    */
-
   public function setUp() {
-    parent::setUp(array('islandora', 'xml_form_api', 'islandora_basic_image', 'islandora_basic_collection', 'objective_forms', 'php_lib', 'xml_forms', 'xml_form_elements', 'xml_schema_api', 'xml_form_builder'));
+    parent::setUp(array(
+      'islandora',
+      'islandora_basic_image',
+      'islandora_basic_collection',
+    ));
   }
 
   /**
@@ -38,44 +38,42 @@ class IslandoraBasicImageIngestTestCase extends IslandoraWebTestCase {
    */
   public function testIngestPurgeBasicImage() {
 
-    // Sets up the testing space
+    // Sets up the testing space.
     $user = $this->createDrupalAdminUser();
     $this->drupalLogin($user);
     $label = $this->randomName(16);
     $suffix = $this->randomName(16);
-    $pid = 'islandora:' . $suffix;
-    $this->createRootTestCollection($label, 'islandora:sp_basic_image', $pid);
+    $collectionpid = 'islandora:' . $suffix;
+    $this->createRootTestCollection($label, 'islandora:sp_basic_image', $collectionpid);
 
-    // Attempts to create an object
-    $path = 'islandora/object/' . $pid . '/manage/overview/ingest';
-    $edit = array();
-    $title = $this->randomName(16);
-    $edit['titleInfo[title]'] = $title;
-    $this->drupalPost($path, $edit, t('Next'));
+    // Attempts to create an object.
+    $path = 'islandora/object/' . $collectionpid . '/manage/overview/ingest';
     $edit = array();
     $file = drupal_get_path('module', 'islandora_basic_image') . '/tests/fixtures/test.png';
     $edit['files[file]'] = $file;
-    $this->drupalPost(NULL, $edit, t('Ingest'));
-    $this->assertText($title, 'Correctly-named image object was created.', 'Islandora');
-
-    // Determines whether or not the appropriate datastreams were created
-    $this->clickLink(t('Manage'));
-    $this->clickLink(t('Datastreams'));
-    $this->assertText(t('Fedora Object to Object Relationship Metadata.'), 'RELS-EXT datastream created.', 'Islandora');
-    $this->assertText(t('MODS Record'), 'MODS datastream created.', 'Islandora');
-    $this->assertText(t('DC Record'), 'Dublin Core datastream created.', 'Islandora');
-    $this->assertText(t('test.png'), 'test.png OBJ datastream created.', 'Islandora');
-    $this->assertText(t('TN'), 'Thumbnail datastream created.', 'Islandora');
-    $this->assertText(t('MEDIUM_SIZE'), 'Medium-sized image derivative datastream created.', 'Islandora');
-
-    // Attempts to delete the object and then collection
-    $this->clickLink(t('Properties'));
+    $this->drupalPost($path, $edit, t('Ingest'));
+    $this->assertText('New Object', 'Image object was created', 'Islandora');
     $path = $this->url;
+    $imagepath = $path . '/datastream/OBJ/view';
+    $this->assertLinkByHref($imagepath, 0, t('Ingested image found on view page'), t('Islandora'));
+
+    // Determines whether or not the appropriate datastreams were created.
+    $objectpid = arg(5, $this->url);
+    $path = 'islandora/object/' . $objectpid . '/manage/datastreams';
+    $this->drupalGet($path);
+    $this->assertLink(t('RELS-EXT'), 'RELS-EXT datastream created.', 'Islandora');
+    $this->assertLink(t('DC'), 'Dublin Core datastream created', 'Islandora');
+    $this->assertLink(t('OBJ'), 'OBJ datastream created', 'Islandora');
+    $this->assertLink(t('TN'), 'Thumbnail datastream created', 'Islandora');
+    $this->assertLink(t('MEDIUM_SIZE'), 'Medium-sized image derivative datastream created', 'Islandora');
+
+    // Attempts to delete the object and then collection.
+    $path = 'islandora/object/' . $objectpid . '/manage/properties';
     $edit = array();
     $this->drupalPost($path, $edit, t('Delete'));
     $path = $this->url;
     $this->drupalPost($path, $edit, t('Delete'));
-    $this->assertNoText($title, 'Object successfully removed.');
-    $this->deleteRootTestCollectionByPid($label, $pid);
+    $this->assertNoText('New Object', 'Object successfully removed.');
+    $this->deleteRootTestCollectionByPid($collectionpid);
   }
 }
