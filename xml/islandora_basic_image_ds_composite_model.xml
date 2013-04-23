@@ -22,6 +22,8 @@
   </dsTypeModel>
   <dsTypeModel ID="OBJ" ORDERED="false" optional="true">
     <form MIME="image/jpg"></form>
+    <form MIME="image/jpeg"></form>
+    <form MIME="image/png"></form>
+    <form MIME="image/gif"></form>
   </dsTypeModel>
-  
 </dsCompositeModel>
