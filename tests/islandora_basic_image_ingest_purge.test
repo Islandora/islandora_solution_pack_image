@@ -59,21 +59,17 @@ class IslandoraBasicImageIngestTestCase extends CollectionWebTestCase {
 
     // Determines whether or not the appropriate datastreams were created.
     $objectpid = arg(5, $this->url);
-    $path = 'islandora/object/' . $objectpid . '/manage/datastreams';
-    $this->drupalGet($path);
-    $this->assertLink(t('RELS-EXT'), 'RELS-EXT datastream created.', 'Islandora');
-    $this->assertLink(t('DC'), 'Dublin Core datastream created', 'Islandora');
-    $this->assertLink(t('OBJ'), 'OBJ datastream created', 'Islandora');
-    $this->assertLink(t('TN'), 'Thumbnail datastream created', 'Islandora');
-    $this->assertLink(t('MEDIUM_SIZE'), 'Medium-sized image derivative datastream created', 'Islandora');
+    $datastreams = array(
+      'RELS-EXT',
+      'DC',
+      'OBJ',
+      'TN',
+      'MEDIUM_SIZE',
+    );
+    $this->assertDatastreams($objectpid, $datastreams);
 
     // Attempts to delete the object and then collection.
-    $path = 'islandora/object/' . $objectpid . '/manage/properties';
-    $edit = array();
-    $this->drupalPost($path, $edit, t('Delete'));
-    $path = $this->url;
-    $this->drupalPost($path, $edit, t('Delete'));
-    $this->assertNoText('New Object', 'Object successfully removed.');
+    $this->deleteTestObject($objectpid, 'New Object');
     $this->deleteRootTestCollectionByPid($collectionpid);
   }
 }
