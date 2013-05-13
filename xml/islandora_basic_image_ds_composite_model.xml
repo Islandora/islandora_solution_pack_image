@@ -20,8 +20,10 @@
   <dsTypeModel ID="MEDIUM_SIZE" ORDERED="false" optional="true">
     <form MIME="image/jpg"></form>
   </dsTypeModel>
-  <dsTypeModel ID="OBJ" ORDERED="false" optional="true">
+  <dsTypeModel ID="OBJ">
     <form MIME="image/jpg"></form>
+    <form MIME="image/jpeg"></form>
+    <form MIME="image/png"></form>
+    <form MIME="image/gif"></form>
   </dsTypeModel>
-  
 </dsCompositeModel>
