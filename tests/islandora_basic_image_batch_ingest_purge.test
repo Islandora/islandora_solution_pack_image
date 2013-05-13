@@ -6,7 +6,7 @@
  * Batch images are a variety of mimetypes and extensions.
  */
 
-class IslandoraBasicImageBatchImgestPurge extends CollectionWebTestCase {
+class IslandoraBasicImageBatchImgestPurge extends IslandoraCollectionWebTestCase {
 
   /**
    * Get test information
