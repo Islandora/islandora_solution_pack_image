@@ -6,3 +6,5 @@ core = 7.x
 version = 7.x-dev
 configure = admin/islandora/basic_image
 stylesheets[all][] = css/islandora_basic_image.theme.css
+files[] = tests/islandora_basic_image_ingest_purge.test
+files[] = tests/islandora_basic_image_batch_ingest_purge.test
