@@ -14,7 +14,7 @@ before_install:
   - $HOME/islandora/tests/scripts/travis_setup.sh
   - cd $HOME/drupal-*
   - ln -s $TRAVIS_BUILD_DIR sites/all/modules/islandora_solution_pack_image
-  - drush en --yes islandora_solution_pack_image
+  - drush en --yes islandora_basic_image
 script:
   - ant -buildfile sites/all/modules/islandora_solution_pack_image/build.xml lint
   - $ISLANDORA_DIR/tests/scripts/line_endings.sh sites/all/modules/islandora_solution_pack_image
