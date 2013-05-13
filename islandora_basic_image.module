@@ -49,7 +49,7 @@ function islandora_basic_image_menu() {
  *
  * We supply a pattern so we can overide templates at the theme level if needed.
  * we can append a pid to a template and the new template file will be called
- * (the pids colon should be replaced with a dash)
+ * (the pids colon should be replaced with a dash).
  */
 function islandora_basic_image_theme($existing, $type, $theme, $path) {
   return array(
