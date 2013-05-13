@@ -8,7 +8,7 @@ CONTENTS OF THIS FILE
  * configuration
  * customization
  * troubleshooting
- * faq
+ * FAQ
  * contact
  * sponsors
 
@@ -34,15 +34,15 @@ CONFIGURATION
 
 
 CUSTOMIZATION
-------------
+-------------
 
 
 TROUBLESHOOTING
 ---------------
 
 
-F.A.Q.
-------
+FAQ
+---
 
 
 CONTACT
