@@ -8,10 +8,10 @@
 /**
  * Creates the derivatives for this content model type.
  *
- * @param FedoraObject $object
+ * @param AbstractObject $object
  *   The object to add derivatives to.
  */
-function islandora_basic_image_create_all_derivatives(FedoraObject $object) {
+function islandora_basic_image_create_all_derivatives(AbstractObject $object) {
   $mime_detect = new MimeDetect();
   if (!isset($object['OBJ'])) {
     drupal_set_message(t('Could not create image derivatives for %s. No image file was uploaded.', array('%s' => $object->id)), 'error');
@@ -70,14 +70,14 @@ function islandora_basic_image_scale_image($file, $width, $height) {
 /**
  * Adds a datastream to an object.
  *
- * @param FedoraObject $object
+ * @param AbstractObject $object
  *   The object to add a datastream to.
  * @param string $dsid
  *   The datastream ID to be added.
  * @param string $file
  *   The URI of the file to be added as the datastream content.
  */
-function islandora_basic_image_add_datastream(FedoraObject $object, $dsid, $file) {
+function islandora_basic_image_add_datastream(AbstractObject $object, $dsid, $file) {
   try {
     $ds = $object->constructDatastream($dsid, 'M');
     $ds->label = $dsid;
