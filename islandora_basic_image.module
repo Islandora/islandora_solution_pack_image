@@ -6,7 +6,6 @@
  */
 
 /**
-<<<<<<< HEAD
  * Implements hook_menu().
  *
  * If you need to add secondary tabs to either view or manage you would create a
@@ -68,8 +67,6 @@ function islandora_basic_image_islandora_view_print_object($object) {
 }
 
 /**
-=======
->>>>>>> 179b7d38a9ee234ee1e29f46f176d23368e8d483
  * Implements hook_theme().
  *
  * We supply a pattern so we can overide templates at the theme level if needed.
