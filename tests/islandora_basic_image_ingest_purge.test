@@ -40,6 +40,10 @@ class IslandoraBasicImageIngestTestCase extends IslandoraCollectionWebTestCase {
     $user = $this->drupalCreateUser(array(
       'view fedora repository objects',
       'ingest fedora objects',
+      'administer site configuration',
+      'manage object properties',
+      'delete fedora objects and datastreams',
+      'create child collection',
     ));
     $this->drupalLogin($user);
 
@@ -51,7 +55,7 @@ class IslandoraBasicImageIngestTestCase extends IslandoraCollectionWebTestCase {
     // Attempts to create an object.
     $path = 'islandora/object/' . $collectionpid . '/manage/overview/ingest';
     $edit = array();
-    $file = drupal_get_path('module', 'islandora_basic_image') . '/tests/fixtures/test.png';
+    $file = drupal_get_path('module', 'islandora_basic_image') . '/tests/fixtures/test.jpg';
     $edit['files[file]'] = $file;
     $this->drupalPost($path, $edit, t('Ingest'));
     $this->assertText('New Object', 'Image object was created', 'Islandora');
@@ -69,7 +73,11 @@ class IslandoraBasicImageIngestTestCase extends IslandoraCollectionWebTestCase {
       'MEDIUM_SIZE',
     );
     $this->assertDatastreams($object, $datastreams);
-
+    // @TODO: This is commented out for now as this assert function does not
+    // exist as of current. However, the basic image tests need to be updated
+    // so the slew of QA Dan's test can be merged.
+    // $this->assertImageDatastreams($object, $datastreams)
+    //
     // Attempts to delete the object and then collection.
     $this->deleteObject($object->id);
     $this->deleteTestCollection($collectionpid);
