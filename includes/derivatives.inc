@@ -39,14 +39,28 @@ function islandora_basic_image_scale_image($file, $width, $height) {
  *   The datastream ID to be added.
  * @param string $file
  *   The URI of the file to be added as the datastream content.
+ * @param bool $ingest
+ *   TRUE if we are ingesting the datastream, FALSE if we are modifying.
+ *
+ * @return bool|string
+ *   TRUE if the datastream was added/modified successfully, the error message
+ *   otherwise.
  */
 function islandora_basic_image_add_datastream(AbstractObject $object, $dsid, $file) {
   try {
-    $ds = $object->constructDatastream($dsid, 'M');
-    $ds->label = $dsid;
-    $ds->mimeType = $object['OBJ']->mimeType;
+    $ingest = !isset($object[$dsid]);
+    if ($ingest) {
+      $ds = $object->constructDatastream($dsid, 'M');
+      $ds->label = $dsid;
+      $ds->mimeType = $object['OBJ']->mimeType;
+    }
+    else {
+      $ds = $object[$dsid];
+    }
     $ds->setContentFromFile(drupal_realpath($file->uri));
-    $object->ingestDatastream($ds);
+    if ($ingest) {
+      $object->ingestDatastream($ds);
+    }
     file_delete($file);
     return TRUE;
   }
@@ -58,7 +72,7 @@ function islandora_basic_image_add_datastream(AbstractObject $object, $dsid, $fi
 
 function islandora_basic_image_create_thumbnail(AbstractObject $object, $force = FALSE) {
   $return = '';
-  if (!isset($object['TN']) && $force === FALSE) {
+  if (!isset($object['TN']) || (isset($object['TN']) && $force === TRUE)) {
     $original_file = islandora_basic_image_copy_obj_datastream($object);
     if ($original_file === FALSE) {
       return islandora_basic_image_no_obj_datastream($object->id);
@@ -68,15 +82,16 @@ function islandora_basic_image_create_thumbnail(AbstractObject $object, $force =
       if (islandora_basic_image_scale_image($tn_file, 200, 200)) {
         $added_successfully = islandora_basic_image_add_datastream($object, 'TN', $tn_file);
         if ($added_successfully !== TRUE) {
-          $return = islandora_basic_image_failed_add($added_successfully);
+          $return = islandora_basic_image_failed_adding($added_successfully);
         }
         else {
           $return = array(
             'success' => TRUE,
             'messages' => array(
               array(
-                'message' => t('The TN datastream was added successfully for @pid!', array('@pid' => $object->id)),
-                'type' => 'info',
+                'message' => t('The TN datastream was added successfully for @pid!'),
+                'message_sub' => array('@pid' => $object->id),
+                'type' => WATCHDOG_INFO,
               ),
             ),
           );
@@ -99,10 +114,24 @@ function islandora_basic_image_create_thumbnail(AbstractObject $object, $force =
  *
  * @param AbstractObject $object
  *   The object to add derivatives to.
+ * @param bool $force
+ *   Whether the derivative creation is being forcefully regenerated.
+ *
+ * @return array
+ *   An array with the following structure to relay whether or not the operation
+ *   was successful:
+ *   -success: Bool denoting whether the operation was successful.
+ *   -messages: An array structure containing:
+ *      -message: A string to pass through t down the road describing the
+ *       outcome of the operation.
+ *      -message_sub: Optional substitutions to be passed along to t() or
+ *       watchdog.
+ *      -type: One of severity levels defined by watchdog. Warning and higher
+ *       will be dsmed, lower will be watchdogged.
  */
 function islandora_basic_image_create_medium_size(AbstractObject $object, $force = FALSE) {
   $return = '';
-  if (!isset($object['MEDIUM_SIZE']) && $force === FALSE) {
+  if (!isset($object['MEDIUM_SIZE']) || (isset($object['MEDIUM_SIZE']) && $force === TRUE)) {
     $original_file = islandora_basic_image_copy_obj_datastream($object);
     if ($original_file === FALSE) {
       return islandora_basic_image_no_obj_datastream($object->id);
@@ -112,15 +141,16 @@ function islandora_basic_image_create_medium_size(AbstractObject $object, $force
       if (islandora_basic_image_scale_image($medium_file, 500, 700)) {
         $added_successfully = islandora_basic_image_add_datastream($object, 'MEDIUM_SIZE', $medium_file);
         if ($added_successfully !== TRUE) {
-         $return = islandora_basic_image_failed_add($added_successfully);
+          $return = islandora_basic_image_failed_adding($added_successfully);
         }
         else {
           $return = array(
             'success' => TRUE,
             'messages' => array(
               array(
-                'message' => t('The MEDIUM_SIZE datastream was added successfully for @pid!', array('@pid' => $object->id)),
-                'type' => 'info',
+                'message' => t('The MEDIUM_SIZE datastream was added successfully for @pid!'),
+                'message_sub' => array('@pid' => $object->id),
+                'type' => WATCHDOG_INFO,
               ),
             ),
           );
@@ -133,7 +163,7 @@ function islandora_basic_image_create_medium_size(AbstractObject $object, $force
     if (isset($original_file)) {
       file_delete($original_file['file']);
     }
-    return $return;
+   return $return;
   }
 }
 
@@ -175,8 +205,9 @@ function islandora_basic_image_no_obj_datastream($pid) {
     'success' => FALSE,
     'messages' => array(
       array(
-        'message' => t('Could not create image derivatives for %s. No image file was uploaded.', array('%s' => $pid)),
-        'type' => 'error',
+        'message' => t('Could not create image derivatives for %s. No image file was uploaded.'),
+        'message_sub' => array('%s' => $pid),
+        'type' => WATCHDOG_ERROR,
       ),
     ),
   );
@@ -196,8 +227,8 @@ function islandora_basic_image_failed_scaling() {
     'success' => FALSE,
     'messages' => array(
       array(
-        'message' => t('Unable to scale the image, the datastream was not added.'),
-        'type' => 'error',
+        'message' => t('Unable to scale the image, the datastream was not added'),
+        'type' => WATCHDOG_WARNING,
       ),
     ),
   );
@@ -209,7 +240,7 @@ function islandora_basic_image_failed_adding($message) {
     'messages' => array(
       array(
         'message' => $message,
-        'type' => 'error',
+        'type' => WATCHDOG_ERROR,
       ),
     ),
   );
