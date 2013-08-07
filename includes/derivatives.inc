@@ -39,8 +39,6 @@ function islandora_basic_image_scale_image($file, $width, $height) {
  *   The datastream ID to be added.
  * @param string $file
  *   The URI of the file to be added as the datastream content.
- * @param bool $ingest
- *   TRUE if we are ingesting the datastream, FALSE if we are modifying.
  *
  * @return bool|string
  *   TRUE if the datastream was added/modified successfully, the error message
@@ -70,6 +68,19 @@ function islandora_basic_image_add_datastream(AbstractObject $object, $dsid, $fi
   }
 }
 
+/**
+ * Creates the TN for basic image.
+ *
+ * @param AbstractObject $object
+ *   An AbstractObject representing a Fedora object.
+ * @param bool $force
+ *   Whether derivative generation is being forced or not.
+ *
+ * @return array
+ *   An array describing the outcome of the thumbnail creation.
+ *
+ * @see hook_islandora_derivative()
+ */
 function islandora_basic_image_create_thumbnail(AbstractObject $object, $force = FALSE) {
   $return = '';
   if (!isset($object['TN']) || (isset($object['TN']) && $force === TRUE)) {
@@ -91,7 +102,7 @@ function islandora_basic_image_create_thumbnail(AbstractObject $object, $force =
               array(
                 'message' => t('The TN datastream was added successfully for @pid!'),
                 'message_sub' => array('@pid' => $object->id),
-                'type' => WATCHDOG_INFO,
+                'type' => 'dsm',
               ),
             ),
           );
@@ -110,24 +121,17 @@ function islandora_basic_image_create_thumbnail(AbstractObject $object, $force =
 
 
 /**
- * Creates the derivatives for this content model type.
+ * Creates the MEDIUM_SIZE derivative for basic image.
  *
  * @param AbstractObject $object
- *   The object to add derivatives to.
+ *   An AbstractObject representing a Fedora object.
  * @param bool $force
- *   Whether the derivative creation is being forcefully regenerated.
+ *   Whether derivative generation is being forced or not.
  *
  * @return array
- *   An array with the following structure to relay whether or not the operation
- *   was successful:
- *   -success: Bool denoting whether the operation was successful.
- *   -messages: An array structure containing:
- *      -message: A string to pass through t down the road describing the
- *       outcome of the operation.
- *      -message_sub: Optional substitutions to be passed along to t() or
- *       watchdog.
- *      -type: One of severity levels defined by watchdog. Warning and higher
- *       will be dsmed, lower will be watchdogged.
+ *   An array describing the outcome of the thumbnail creation.
+ *
+ * @see hook_islandora_derivative()
  */
 function islandora_basic_image_create_medium_size(AbstractObject $object, $force = FALSE) {
   $return = '';
@@ -150,7 +154,7 @@ function islandora_basic_image_create_medium_size(AbstractObject $object, $force
               array(
                 'message' => t('The MEDIUM_SIZE datastream was added successfully for @pid!'),
                 'message_sub' => array('@pid' => $object->id),
-                'type' => WATCHDOG_INFO,
+                'type' => 'dsm',
               ),
             ),
           );
@@ -163,7 +167,7 @@ function islandora_basic_image_create_medium_size(AbstractObject $object, $force
     if (isset($original_file)) {
       file_delete($original_file['file']);
     }
-   return $return;
+    return $return;
   }
 }
 
@@ -172,6 +176,7 @@ function islandora_basic_image_create_medium_size(AbstractObject $object, $force
  *
  * @param AbstractObject $object
  *   An AbstractObject representing an object within Fedora.
+ *
  * @return array|stdClass
  *   FALSE when the object doesn't have the OBJ, an array otherwise.
  */
@@ -200,6 +205,17 @@ function islandora_basic_image_copy_obj_datastream(AbstractObject $object) {
   );
 }
 
+/**
+ * Helper function that returns a message when no OBJ datastream exists.
+ *
+ * @param string $pid
+ *   The PID of the object that derivatives are being generated on.
+ *
+ * @return array
+ *   An array describing the failure of the operation.
+ *
+ * @see hook_islandora_derivative()
+ */
 function islandora_basic_image_no_obj_datastream($pid) {
   return array(
     'success' => FALSE,
@@ -214,13 +230,12 @@ function islandora_basic_image_no_obj_datastream($pid) {
 }
 
 /**
- * Basic image fails to scale.
- *
- * @param string $message
- *   An error message to pass along.
+ * Helper function that returns a message when the image fails to scale.
  *
  * @return array
- *   An array in the format used by islandora_derivative().
+ *   An array describing the failure of the operation.
+ *
+ * @see hook_islandora_derivative()
  */
 function islandora_basic_image_failed_scaling() {
   return array(
@@ -234,6 +249,17 @@ function islandora_basic_image_failed_scaling() {
   );
 }
 
+/**
+ * Helper function describing failure when adding/modifying a datastream.
+ *
+ * @param string $message
+ *   The error message returned when attempting to add/modify.
+ *
+ * @return array
+ *   An array describing the failure of the operation.
+ *
+ * @see hook_islandora_derivative()
+ */
 function islandora_basic_image_failed_adding($message) {
   return array(
     'success' => FALSE,
