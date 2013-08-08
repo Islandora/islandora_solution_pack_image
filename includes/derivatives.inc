@@ -223,7 +223,8 @@ function islandora_basic_image_no_obj_datastream($pid) {
       array(
         'message' => t('Could not create image derivatives for %s. No image file was uploaded.'),
         'message_sub' => array('%s' => $pid),
-        'type' => WATCHDOG_ERROR,
+        'type' => 'watchdog',
+        'severity' => WATCHDOG_ERROR,
       ),
     ),
   );
@@ -243,7 +244,8 @@ function islandora_basic_image_failed_scaling() {
     'messages' => array(
       array(
         'message' => t('Unable to scale the image, the datastream was not added'),
-        'type' => WATCHDOG_WARNING,
+        'type' => 'dsm',
+        'severity' => 'warning',
       ),
     ),
   );
@@ -266,7 +268,8 @@ function islandora_basic_image_failed_adding($message) {
     'messages' => array(
       array(
         'message' => $message,
-        'type' => WATCHDOG_ERROR,
+        'type' => 'watchdog',
+        'severity' => WATCHDOG_ERROR,
       ),
     ),
   );
