@@ -112,14 +112,6 @@ function islandora_basic_image_islandora_sp_basic_image_islandora_view_object($o
 }
 
 /**
- * Implements hook_CMODEL_PID_islandora_object_ingested().
- */
-function islandora_basic_image_islandora_sp_basic_image_islandora_object_ingested($object) {
-  module_load_include('inc', 'islandora_basic_image', 'includes/derivatives');
-  islandora_basic_image_create_all_derivatives($object);
-}
-
-/**
  * Implements hook_preprocess_theme().
  */
 function islandora_basic_image_preprocess_islandora_basic_image(array &$variables) {
@@ -220,6 +212,32 @@ function islandora_basic_image_islandora_sp_basic_image_islandora_ingest_steps()
       'form_id' => 'islandora_basic_image_image_upload_form',
       'module' => 'islandora_basic_image',
       'file' => 'includes/image_upload.form.inc',
+    ),
+  );
+}
+
+/**
+ * Implements hook_islandora_CMODEL_PID_derivative().
+ */
+function islandora_basic_image_islandora_sp_basic_image_islandora_derivative() {
+  return array(
+    array(
+      'source_dsid' => 'OBJ',
+      'destination_dsid' => 'TN',
+      'weight' => '0',
+      'function' => array(
+        'islandora_basic_image_create_thumbnail',
+      ),
+      'file' => drupal_get_path('module', 'islandora_basic_image') . '/includes/derivatives.inc',
+    ),
+    array(
+      'source_dsid' => 'OBJ',
+      'destination_dsid' => 'MEDIUM_SIZE',
+      'weight' => '1',
+      'function' => array(
+        'islandora_basic_image_create_medium_size',
+      ),
+      'file' => drupal_get_path('module', 'islandora_basic_image') . '/includes/derivatives.inc',
     ),
   );
 }
