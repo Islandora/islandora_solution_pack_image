@@ -73,12 +73,13 @@ class IslandoraBasicImageIngestTestCase extends IslandoraCollectionWebTestCase {
       'MEDIUM_SIZE',
     );
     $this->assertDatastreams($object, $datastreams);
+
     $datastreams = array(
-    	'OBJ',
-      'TN',
-      'MEDIUM_SIZE',
+      array('OBJ', 'image'),
+      array('TN', 'image'),
+      array('MEDIUM_SIZE', 'image'),
     );
-    $this->assertImageDatastreams($object, $datastreams);
+    $this->validateDatastreams($object, $datastreams);
 
     // Attempts to delete the object and then collection.
     $this->deleteObject($object->id);
