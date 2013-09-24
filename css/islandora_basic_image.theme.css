@@ -1,4 +1,4 @@
-/* 
+/*
     Document   : islandora_basic_collection.theme
     Created on : May 23, 2012, 11:23:56 AM
     Description: The basic image page is a simple flexible layout page
@@ -24,7 +24,12 @@
   clear: both;
 }
 
+/* This is kept for legacy reasons */
 dl.islandora-basic-image-fields {
+  width:100%;
+}
+
+dl.islandora-metadata-fields {
   width:100%;
 }
 
@@ -71,5 +76,5 @@ body.two-sidebars .islandora-basic-image-sidebar {
     width: 35%;
     clear: none;
   }
-  
+
 }
