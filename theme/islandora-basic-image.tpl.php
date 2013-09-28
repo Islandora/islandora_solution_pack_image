@@ -15,11 +15,9 @@
         <?php print $islandora_content; ?>
       </div>
     <?php endif; ?>
-  <div class="islandora-basic-image-sidebar">
-    <?php if (!empty($dc_array['dc:description']['value'])): ?>
-      <h2><?php print $dc_array['dc:description']['label']; ?></h2>
-      <p property="description"><?php print $dc_array['dc:description']['value']; ?></p>
-    <?php endif; ?>
+  </div>
+  <div class="islandora-basic-image-metadata">
+    <?php print $description; ?>
     <?php if ($parent_collections): ?>
       <div>
         <h2><?php print t('In collections'); ?></h2>
@@ -30,23 +28,6 @@
         </ul>
       </div>
     <?php endif; ?>
+    <?php print $metadata; ?>
   </div>
-  </div>
-  <fieldset class="collapsible collapsed islandora-basic-image-metadata">
-  <legend><span class="fieldset-legend"><?php print t('Details'); ?></span></legend>
-    <div class="fieldset-wrapper">
-      <dl xmlns:dcterms="http://purl.org/dc/terms/" class="islandora-inline-metadata islandora-basic-image-fields">
-        <?php $row_field = 0; ?>
-        <?php foreach($dc_array as $key => $value): ?>
-          <dt property="<?php print $value['dcterms']; ?>" content="<?php print $value['value']; ?>" class="<?php print $value['class']; ?><?php print $row_field == 0 ? ' first' : ''; ?>">
-            <?php print $value['label']; ?>
-          </dt>
-          <dd class="<?php print $value['class']; ?><?php print $row_field == 0 ? ' first' : ''; ?>">
-            <?php print $value['value']; ?>
-          </dd>
-          <?php $row_field++; ?>
-        <?php endforeach; ?>
-      </dl>
-    </div>
-  </fieldset>
 </div>
