@@ -73,11 +73,14 @@ class IslandoraBasicImageIngestTestCase extends IslandoraCollectionWebTestCase {
       'MEDIUM_SIZE',
     );
     $this->assertDatastreams($object, $datastreams);
-    // @TODO: This is commented out for now as this assert function does not
-    // exist as of current. However, the basic image tests need to be updated
-    // so the slew of QA Dan's test can be merged.
-    // $this->assertImageDatastreams($object, $datastreams)
-    //
+
+    $datastreams = array(
+      array('OBJ', 'image'),
+      array('TN', 'image'),
+      array('MEDIUM_SIZE', 'image'),
+    );
+    $this->validateDatastreams($object, $datastreams);
+
     // Attempts to delete the object and then collection.
     $this->deleteObject($object->id);
     $this->deleteTestCollection($collectionpid);
