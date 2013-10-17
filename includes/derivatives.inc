@@ -27,6 +27,10 @@ function islandora_basic_image_scale_image($file, $width, $height) {
       return image_save($image);
     }
   }
+  $variables = array(
+  		'@path' => $e->getTraceAsString(),
+  );
+  watchdog('islandora_basic_image', 'Basic image failed to scale image.<br/>Image path: @path', $variables, WATCHDOG_ERROR);
   return FALSE;
 }
 
@@ -63,6 +67,10 @@ function islandora_basic_image_add_datastream(AbstractObject $object, $dsid, $fi
     return TRUE;
   }
   catch (exception $e) {
+  	$variables = array(
+  			'@ret' => $e->getTraceAsString(),
+  	);
+  	watchdog('islandora_basic_image', 'Basic image failed to add data stream.<br/>Error: @ret', $variables, WATCHDOG_ERROR);
     $message = $e->getMessage();
     return $message;
   }
