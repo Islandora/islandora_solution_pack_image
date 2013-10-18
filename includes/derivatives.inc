@@ -21,11 +21,24 @@
 function islandora_basic_image_scale_image($file, $width, $height) {
   $real_path = drupal_realpath($file->uri);
   $image = image_load($real_path);
-  if (!empty($image)) {
-    $scale = image_scale($image, $width, $height, TRUE);
-    if ($scale) {
-      return image_save($image);
+  try {
+    if (!empty($image)) {
+      $scale = image_scale($image, $width, $height, TRUE);
+      if ($scale) {
+        return image_save($image);
+      }
     }
+  }
+  catch (exception $e) {
+    drupal_set_message(t(
+        "Basic image failed to scale image with message: '@message'",
+        array("@message" => $e->getMessage())));
+    watchdog(
+      'islandora_basic_image',
+      'Basic image failed to scale image.<br/> With stack: @trace',
+      array('@trace' => $e->getTraceAsString()),
+      WATCHDOG_ERROR
+    );
   }
   return FALSE;
 }
@@ -63,6 +76,10 @@ function islandora_basic_image_add_datastream(AbstractObject $object, $dsid, $fi
     return TRUE;
   }
   catch (exception $e) {
+    $variables = array(
+      '@ret' => $e->getTraceAsString(),
+    );
+    watchdog('islandora_basic_image', 'Basic image failed to add data stream.<br/>Error: @ret', $variables, WATCHDOG_ERROR);
     $message = $e->getMessage();
     return $message;
   }
