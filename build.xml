@@ -78,7 +78,7 @@
 
   <target name="test">
     <exec executable="drush">
-      <arg line="test-run --xml=${basedir}/build/test 'Islandora Basic Image'" />
+      <arg line="test-run --uri=http://localhost --xml=${basedir}/build/test 'Islandora Basic Image'" />
     </exec>
   </target>
 
