@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <project name="islandora_solution_pack_image" default="build">
-  <target name="build" depends="clean,prepare,lint,phploc,code_sniff,phpcpd,pdepend,doxygen,phpcb,test,coverage" />
+  <target name="build" depends="clean,prepare,php-eval,lint,phploc,code_sniff,phpcpd,pdepend,doxygen,phpcb,test,coverage" />
 
   <target name="clean" description="Cleanup build artifacts">
       <delete dir="${basedir}/build/test" />
@@ -19,6 +19,12 @@
     <mkdir dir="${basedir}/build/api" />
     <mkdir dir="${basedir}/build/code-browser" />
     <mkdir dir="${basedir}/build/code_coverage" />
+  </target>
+  
+  <target name="php-eval" description="Use php-eval to set the code_coverage_filter_files variable">
+    <exec executable="drush">
+      <arg line="php-eval &quot;variable_set('code_coverage_filter_files', array('sites/all/modules/islandora_solution_pack_image/islandora_basic_image.module', 'sites/all/modules/islandora_solution_pack_image/islandora_basic_image.install', 'sites/all/modules/islandora_solution_pack_image/includes/derivatives.inc', 'sites/all/modules/islandora_solution_pack_image/includes/image_upload_form.inc', 'sites/all/modules/islandora_solution_pack_image/theme/islandora-basic-image.tpl.php', 'sites/all/modules/islandora_solution_pack_image/theme/islandora-object-img-print.tpl.php'));&quot;"
+    </exec>
   </target>
 
   <target name="lint" description="Perform syntax check of sourcecode files">
