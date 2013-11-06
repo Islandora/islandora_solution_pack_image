@@ -86,7 +86,7 @@
   
   <target name="coverage" description="Generate a code coverage report for the simpletest run">
     <exec executable="drush">
-      <arg line="cc-export latest --html --xml --tag-html --generate-index --path=${basedir}/build/code_coverage"/>
+      <arg line="cc-export latest --html --csv --tag-html --generate-index --path=${basedir}/build/code_coverage"/>
     </exec>
   </target>
 
