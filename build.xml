@@ -23,7 +23,7 @@
   
   <target name="php-eval" description="Use php-eval to set the code_coverage_filter_files variable">
     <exec executable="drush">
-      <arg line="php-eval &quot;variable_set('code_coverage_filter_files', array('sites/all/modules/islandora_solution_pack_image/islandora_basic_image.module', 'sites/all/modules/islandora_solution_pack_image/islandora_basic_image.install', 'sites/all/modules/islandora_solution_pack_image/includes/derivatives.inc', 'sites/all/modules/islandora_solution_pack_image/includes/image_upload_form.inc', 'sites/all/modules/islandora_solution_pack_image/theme/islandora-basic-image.tpl.php', 'sites/all/modules/islandora_solution_pack_image/theme/islandora-object-img-print.tpl.php'));&quot;"/>
+      <arg line="php-eval &quot;variable_set('code_coverage_filter_files', array('sites/all/modules/islandora_solution_pack_image/islandora_basic_image.module', 'sites/all/modules/islandora_solution_pack_image/islandora_basic_image.install', 'sites/all/modules/islandora_solution_pack_image/includes/derivatives.inc', 'sites/all/modules/islandora_solution_pack_image/includes/image_upload_form.inc', 'sites/all/modules/islandora_solution_pack_image/theme/islandora-basic-image.tpl.php', 'sites/all/modules/islandora_solution_pack_image/theme/islandora-object-img-print.tpl.php')); variable_set('code_coverage_filter_modules', array());&quot;"/>
     </exec>
   </target>
 
