@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <project name="islandora_solution_pack_image" default="build">
-  <target name="build" depends="clean,prepare,php-eval,lint,phploc,code_sniff,phpcpd,pdepend,doxygen,phpcb,test,coverage" />
+  <target name="build" depends="clean,prepare,php-eval,lint,phploc,code_sniff,phpcpd,pdepend,doxygen,phpcb,test,cc-process,cc-export" />
 
   <target name="clean" description="Cleanup build artifacts">
       <delete dir="${basedir}/build/test" />
@@ -90,7 +90,13 @@
     </exec>
   </target>
   
-  <target name="coverage" description="Generate a code coverage report for the simpletest run">
+  <target name="cc-process" description="Processes the code coverage output so it can be exported">
+    <exec executable="drush">
+      <arg line="cc-process all"/>
+    </exec>
+  </target>
+  
+  <target name="cc-export" description="Generate a code coverage report for the simpletest run">
     <exec executable="drush">
       <arg line="cc-export latest --html --csv --tag-html --generate-index --path=${basedir}/build/code_coverage"/>
     </exec>
