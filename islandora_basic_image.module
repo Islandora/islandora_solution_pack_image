@@ -19,7 +19,7 @@ function islandora_basic_image_islandora_view_print_object($object) {
 
     // Theme the image seperatly.
     $variables['islandora_img'] = theme('image', $params);
-    $output = theme('islandora_default_print', array(
+    $output = theme('islandora_basic_image_print', array(
     'islandora_content' => $variables['islandora_img']));
   }
 
@@ -45,8 +45,8 @@ function islandora_basic_image_theme($existing, $type, $theme, $path) {
       'pattern' => 'islandora_basic_image__',
       'variables' => array('islandora_object' => NULL),
     ),
-    'islandora_default_print' => array(
-      'template' => 'theme/islandora-object-img-print',
+    'islandora_basic_image_print' => array(
+      'template' => 'theme/islandora-basic-image-print',
       'variables' => array('islandora_content' => NULL),
     ),
   );
@@ -142,7 +142,6 @@ function islandora_basic_image_preprocess_islandora_basic_image(array &$variable
   $variables['metadata'] = islandora_retrieve_metadata_markup($islandora_object);
   $variables['description'] = islandora_retrieve_description_markup($islandora_object);
 
-  global $base_url;
   // Original.
   if (isset($islandora_object['OBJ']) && islandora_datastream_access(ISLANDORA_VIEW_OBJECTS, $islandora_object['OBJ'])) {
     $full_size_url = url("islandora/object/{$islandora_object->id}/datastream/OBJ/view", array('absolute' => TRUE));
