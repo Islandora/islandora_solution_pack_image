@@ -20,7 +20,7 @@ Install as usual, see [this](https://drupal.org/documentation/install/modules-th
 
 ## Configuration
 
-Configure the image-tool kit to use ImageMagick rather than GD in Administration Â» Configuration Â» Media Â» Image Toolkit (admin/config/media/image-toolkit). If GD is selected, TN and JPG datastreams will not be generated.
+Configure the image-tool kit to use ImageMagick rather than GD in Administration > Configuration > Media > Image Toolkit (admin/config/media/image-toolkit). If GD is selected, TN and JPG datastreams will not be generated.
 
 ![Configuration](http://i.imgur.com/O3sQPeO.png)
 
