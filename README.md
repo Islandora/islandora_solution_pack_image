@@ -2,7 +2,7 @@
 
 ## Introduction
 
-Creates Image Collection to hold image objects. Adds support for Image objects based on JPEG/PNG/GIF image files.
+Creates Image Collection to hold image objects. Adds support for image objects based on JPEG/PNG/GIF image files.
 
 ## Requirements
 
@@ -12,7 +12,7 @@ This module requires the following modules/libraries:
 * [Tuque](https://github.com/islandora/tuque)
 * [ImageMagick](https://drupal.org/project/imagemagick)
 
-*To successfully create derivative data streams ImageMagick (TN & JPG) needs to be installed on the server.*
+*To successfully create derivative data streams ImageMagick (for TN & JPG) needs to be installed on the server.*
 
 ## Installation
 
