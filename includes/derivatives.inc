@@ -67,7 +67,6 @@ function islandora_basic_image_add_datastream(AbstractObject $object, $dsid, $fi
     else {
       $ds = $object[$dsid];
     }
-    dsm($file);
     if ($ds->mimeType != $file->filemime) {
       $ds->mimeType = $file->filemime;
     }
