@@ -67,8 +67,8 @@ function islandora_basic_image_add_datastream(AbstractObject $object, $dsid, $fi
     else {
       $ds = $object[$dsid];
     }
-    if ($ds->mimeType != $object['OBJ']->mimeType) {
-      $ds->mimeType = $object['OBJ']->mimeType;
+    if ($ds->mimeType != $file->mimeType) {
+      $ds->mimeType = $file->mimeType;
     }
     $ds->setContentFromFile(drupal_realpath($file->uri));
     if ($ingest) {
