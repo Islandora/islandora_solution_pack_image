@@ -17,7 +17,6 @@
     <form MIME="application/xml"/>
   </dsTypeModel>
   <dsTypeModel ID="TN" ORDERED="false" optional="true">
-    <form MIME="image/jpg"/>
     <form MIME="image/jpeg"/>
     <form MIME="image/png"/>
     <form MIME="image/gif"/>
@@ -26,7 +25,6 @@
     <form MIME="image/jpg"/>
   </dsTypeModel>
   <dsTypeModel ID="OBJ">
-    <form MIME="image/jpg"/>
     <form MIME="image/jpeg"/>
     <form MIME="image/png"/>
     <form MIME="image/gif"/>
