@@ -240,3 +240,20 @@ function islandora_basic_image_islandora_sp_basic_image_islandora_derivative() {
     ),
   );
 }
+
+/**
+ * Implements hook_menu().
+ */
+function islandora_basic_image_menu() {
+  $items = array();
+  $items['admin/islandora/solution_pack_config/basic_image'] = array(
+    'title' => 'Basic Image Solution Pack',
+    'description' => 'Define ingest behavior and configuration.',
+    'page callback' => 'drupal_get_form',
+    'access arguments' => array('administer site configuration'),
+    'page arguments' => array('islandora_basic_image_admin'),
+    'file' => 'includes/admin.form.inc',
+    'type' => MENU_NORMAL_ITEM,
+  );
+  return $items;
+}

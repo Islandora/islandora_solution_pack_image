@@ -14,16 +14,18 @@
  *   The width to scale the derived image to.
  * @param int $height
  *   The height to scale the derived image to.
+ * @param bool $upscale
+ *   Whether to upscale or not.
  *
  * @return bool
  *   TRUE if successful, FALSE otherwise.
  */
-function islandora_basic_image_scale_image($file, $width, $height) {
+function islandora_basic_image_scale_image($file, $width, $height, $upscale = TRUE) {
   $real_path = drupal_realpath($file->uri);
   $image = image_load($real_path);
   try {
     if (!empty($image)) {
-      $scale = image_scale($image, $width, $height, TRUE);
+      $scale = image_scale($image, $width, $height, $upscale);
       if ($scale) {
         return image_save($image);
       }
@@ -161,7 +163,8 @@ function islandora_basic_image_create_medium_size(AbstractObject $object, $force
     }
     else {
       $medium_file = file_copy($original_file['file'], 'temporary://' . $original_file['filename'] . 'TN.' . $original_file['extension']);
-      if (islandora_basic_image_scale_image($medium_file, 500, 700)) {
+      $upscale = variable_get('islandora_basic_image_upscale_images', TRUE);
+      if (islandora_basic_image_scale_image($medium_file, 500, 700, $upscale)) {
         $added_successfully = islandora_basic_image_add_datastream($object, 'MEDIUM_SIZE', $medium_file);
         if ($added_successfully !== TRUE) {
           $return = islandora_basic_image_failed_adding($added_successfully);
