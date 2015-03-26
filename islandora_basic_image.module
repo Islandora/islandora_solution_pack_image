@@ -173,9 +173,9 @@ function islandora_basic_image_preprocess_islandora_basic_image(array &$variable
 }
 
 /**
- * Implements hook_islandora_content_model_forms_form_associations().
+ * Implements hook_islandora_xml_form_builder_form_associations().
  */
-function islandora_basic_image_islandora_content_model_forms_form_associations() {
+function islandora_basic_image_islandora_xml_form_builder_form_associations(){
   return array(
     'islandora_basic_image_mods_form' => array(
       'content_model' => 'islandora:sp_basic_image',
