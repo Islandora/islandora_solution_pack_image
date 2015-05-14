@@ -16,6 +16,11 @@
   <dsTypeModel ID="TECHMD" optional="true">
     <form MIME="application/xml"/>
   </dsTypeModel>
+  <dsTypeModel ID="OBJ">
+    <form MIME="image/jpeg"/>
+    <form MIME="image/png"/>
+    <form MIME="image/gif"/>
+  </dsTypeModel>
   <dsTypeModel ID="TN" ORDERED="false" optional="true">
     <form MIME="image/jpeg"/>
     <form MIME="image/png"/>
@@ -23,10 +28,5 @@
   </dsTypeModel>
   <dsTypeModel ID="MEDIUM_SIZE" ORDERED="false" optional="true">
     <form MIME="image/jpg"/>
-  </dsTypeModel>
-  <dsTypeModel ID="OBJ">
-    <form MIME="image/jpeg"/>
-    <form MIME="image/png"/>
-    <form MIME="image/gif"/>
   </dsTypeModel>
 </dsCompositeModel>
