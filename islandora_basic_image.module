@@ -108,7 +108,7 @@ function islandora_basic_image_islandora_sp_basic_image_islandora_view_object($o
 /**
  * Implements hook_preprocess_theme().
  */
-function islandora_basic_image_preprocess_islandora_basic_image(array &$variables) {
+function template_preprocess_islandora_basic_image(array &$variables) {
   drupal_add_js('misc/form.js');
   drupal_add_js('misc/collapse.js');
   $islandora_object = $variables['islandora_object'];
