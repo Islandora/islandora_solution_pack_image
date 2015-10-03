@@ -45,7 +45,7 @@ function islandora_basic_image_image_upload_form(array $form, array &$form_state
  *   The Drupal form state.
  */
 function islandora_basic_image_image_upload_form_submit(array $form, array &$form_state) {
-  $object = $form_state['islandora']['objects'][0];
+  $object = islandora_ingest_form_get_object($form_state);
   if (empty($object['OBJ'])) {
     $ds = $object->constructDatastream('OBJ', 'M');
     $object->ingestDatastream($ds);
