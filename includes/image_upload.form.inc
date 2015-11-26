@@ -19,10 +19,12 @@
 function islandora_basic_image_image_upload_form(array $form, array &$form_state) {
   $upload_size = min((int) ini_get('post_max_size'), (int) ini_get('upload_max_filesize'));
   $extensions = array('gif png jpg jpeg');
+  $upload_required = variable_get('islandora_require_obj_upload', True);
   return array(
     'file' => array(
       '#title' => t('Image'),
       '#type' => 'managed_file',
+      '#required' => $upload_required,
       '#description' => t('Select image to upload.<br/>Files must be less than <strong>@size MB.</strong><br/>Allowed file types: <strong>@ext.</strong>', array('@size' => $upload_size, '@ext' => $extensions[0])),
       '#default_value' => isset($form_state['values']['files']) ? $form_state['values']['files'] : NULL,
       '#upload_location' => 'temporary://',
