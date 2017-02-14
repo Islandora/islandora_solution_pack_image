@@ -173,9 +173,9 @@ function template_preprocess_islandora_basic_image(array &$variables) {
 }
 
 /**
- * Implements hook_islandora_xml_form_builder_form_associations().
+ * Implements hook_xml_form_builder_form_associations().
  */
-function islandora_basic_image_islandora_xml_form_builder_form_associations() {
+function islandora_basic_image_xml_form_builder_form_associations() {
   return array(
     'islandora_basic_image_mods_form' => array(
       'content_model' => 'islandora:sp_basic_image',
@@ -189,9 +189,9 @@ function islandora_basic_image_islandora_xml_form_builder_form_associations() {
 }
 
 /**
- * Implements hook_islandora_xml_form_builder_forms().
+ * Implements hook_xml_form_builder_forms().
  */
-function islandora_basic_image_islandora_xml_form_builder_forms() {
+function islandora_basic_image_xml_form_builder_forms() {
   $module_path = drupal_get_path('module', 'islandora_basic_image');
   return array(
     'Basic image MODS form' => array(
