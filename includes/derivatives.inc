@@ -76,7 +76,6 @@ function islandora_basic_image_add_datastream(AbstractObject $object, $dsid, $fi
     if ($ingest) {
       $object->ingestDatastream($ds);
     }
-    file_delete($file);
     return TRUE;
   }
   catch (exception $e) {
@@ -113,6 +112,7 @@ function islandora_basic_image_create_thumbnail(AbstractObject $object, $force =
       $tn_file = file_copy($original_file['file'], 'temporary://' . $original_file['filename'] . 'TN.' . $original_file['extension']);
       if (islandora_basic_image_scale_image($tn_file, 200, 200)) {
         $added_successfully = islandora_basic_image_add_datastream($object, 'TN', $tn_file);
+        file_delete($tn_file);
         if ($added_successfully !== TRUE) {
           $return = islandora_basic_image_failed_adding($added_successfully);
         }
@@ -132,9 +132,12 @@ function islandora_basic_image_create_thumbnail(AbstractObject $object, $force =
       else {
         $return = islandora_basic_image_failed_scaling();
       }
-    }
-    if (isset($original_file)) {
-      file_delete($original_file['file']);
+      if (isset($tn_file)) {
+        file_delete($tn_file);
+      }
+      if (isset($original_file)) {
+        file_delete($original_file['file']);
+      }
     }
     return $return;
   }
@@ -166,6 +169,7 @@ function islandora_basic_image_create_medium_size(AbstractObject $object, $force
       $upscale = variable_get('islandora_basic_image_upscale_images', TRUE);
       if (islandora_basic_image_scale_image($medium_file, 500, 700, $upscale)) {
         $added_successfully = islandora_basic_image_add_datastream($object, 'MEDIUM_SIZE', $medium_file);
+        file_delete($medium_file);
         if ($added_successfully !== TRUE) {
           $return = islandora_basic_image_failed_adding($added_successfully);
         }
@@ -185,9 +189,12 @@ function islandora_basic_image_create_medium_size(AbstractObject $object, $force
       else {
         $return = islandora_basic_image_failed_scaling();
       }
-    }
-    if (isset($original_file)) {
-      file_delete($original_file['file']);
+      if ($medium_file) {
+        file_delete($medium_file);
+      }
+      if (isset($original_file)) {
+        file_delete($original_file['file']);
+      }
     }
     return $return;
   }
