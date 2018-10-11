@@ -46,7 +46,7 @@ Having problems or solved a problem? Check out the Islandora google groups for a
 ## Maintainers/Sponsors
 Current maintainers:
 
-* [Natkeeran Ledchumykanthan](https://github.com/Natkeeran)
+* [Alan Stanley](https://github.com/ajstanley)
 
 ## Development
 
